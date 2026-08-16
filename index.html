@@ -571,12 +571,25 @@ body{
 .exp-item-main{flex:1;min-width:0;}
 .exp-item-desc{font-size:13px;font-weight:700;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .exp-item-meta{font-size:11px;color:var(--muted);margin-top:1px;}
-.exp-item-amt{font-size:13.5px;font-weight:800;color:var(--d2);white-space:nowrap;flex-shrink:0;}
+.exp-item-amt{font-size:13.5px;font-weight:800;color:var(--d2);white-space:nowrap;flex-shrink:0;text-align:right;}
+.exp-item-payer{display:block;font-size:10px;font-weight:700;color:var(--muted);margin-top:1px;}
 .exp-del{
   flex-shrink:0;width:26px;height:26px;border-radius:50%;border:none;background:#FFF1F2;color:#BE123C;
   font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;
 }
 .exp-del:active{transform:scale(.88);}
+.exp-cur{flex:0 0 90px;min-width:80px;}
+.exp-payer-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.exp-payer-chip{background:#fff;border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 10px;text-align:center;}
+.exp-payer-name{display:block;font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;}
+.exp-payer-amt{display:block;font-size:13px;font-weight:900;color:var(--dark);margin-top:2px;}
+.exp-tools-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.exp-tool-btn{
+  flex:1;min-width:150px;text-align:center;background:var(--cream);border:1px solid var(--border);
+  color:var(--text);border-radius:10px;padding:9px 10px;font-size:12px;font-weight:700;cursor:pointer;
+}
+.exp-tool-btn:hover{border-color:var(--gold);background:var(--gold-light);}
+.exp-tools-hint{font-size:11px;color:var(--muted);margin-top:8px;text-align:center;}
 .exp-reset{
   display:block;margin:16px auto 0;background:none;border:1px solid var(--border);color:var(--muted);
   border-radius:20px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;
@@ -648,6 +661,82 @@ body{
   display:none;
 }
 .pin-badge.show{display:block;}
+
+/* ═══ CHECK-IN MAP ═══ */
+.map-wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-bottom:18px;}
+.map-zone{
+  position:relative;flex:1 1 260px;min-height:230px;border-radius:var(--r);
+  overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh0);
+  background:linear-gradient(160deg,#EFEAE0 0%,#E4DCC8 60%,#DCD2B8 100%);
+}
+.map-zone.map-pattaya{flex:1 1 160px;min-height:230px;
+  background:linear-gradient(160deg,#DCEEF2 0%,#C9E4EA 55%,#B9D9E8 100%);
+}
+.map-zone-label{
+  position:absolute;top:10px;left:10px;z-index:2;background:rgba(255,255,255,.88);
+  border-radius:20px;padding:4px 11px;font-size:11.5px;font-weight:800;color:var(--dark);
+  box-shadow:var(--sh0);
+}
+.map-river{
+  position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 38%,rgba(94,163,196,.35) 47%,rgba(94,163,196,.5) 52%,transparent 61%);
+  pointer-events:none;
+}
+.map-route-chip{
+  align-self:center;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:10.5px;font-weight:700;color:var(--muted);padding:6px;
+}
+.map-route-chip .arr{font-size:16px;color:var(--gold);}
+.map-pin{
+  position:absolute;transform:translate(-50%,-50%);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:2px;z-index:1;
+}
+.map-pin-mark{
+  width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:11px;transition:transform .15s ease;
+}
+.map-pin.ghost .map-pin-mark{
+  background:rgba(255,255,255,.55);border:2px dashed rgba(90,74,58,.35);color:rgba(90,74,58,.5);
+}
+.map-pin.visited .map-pin-mark{
+  background:var(--red);border:2px solid #fff;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.25);
+}
+.map-pin.visited.has-photo .map-pin-mark{padding:0;overflow:hidden;background:#fff;}
+.map-pin.visited.has-photo .map-pin-mark img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.map-pin:hover .map-pin-mark{transform:scale(1.18);}
+.map-pin.just-checked .map-pin-mark{animation:pin-pop .6s cubic-bezier(.34,1.56,.64,1);}
+@keyframes pin-pop{0%{transform:scale(0);}60%{transform:scale(1.35);}100%{transform:scale(1);}}
+.map-pin-label{
+  font-size:9px;font-weight:700;color:var(--dark);background:rgba(255,255,255,.85);
+  border-radius:8px;padding:1px 5px;white-space:nowrap;max-width:80px;overflow:hidden;text-overflow:ellipsis;
+  opacity:0;transition:opacity .15s;pointer-events:none;
+}
+.map-pin.visited .map-pin-label{opacity:1;}
+.map-pin.ghost:hover .map-pin-label{opacity:1;}
+.map-hint{font-size:11.5px;color:var(--muted);text-align:center;margin:-10px 0 16px;}
+
+/* ═══ CHECK-IN LIGHTBOX ═══ */
+.lightbox-backdrop{
+  position:fixed;inset:0;background:rgba(28,20,16,.72);z-index:500;
+  display:none;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(3px);
+}
+.lightbox-backdrop.show{display:flex;}
+.lightbox-card{
+  background:#fff;border-radius:var(--r);max-width:360px;width:100%;overflow:hidden;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);position:relative;
+}
+.lightbox-close{
+  position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;
+  background:rgba(0,0,0,.5);color:#fff;border:none;font-size:16px;cursor:pointer;z-index:2;
+}
+.lightbox-photo{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--cream);}
+.lightbox-noPhoto{width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,var(--gold-light),#fff);}
+.lightbox-body{padding:16px;}
+.lightbox-name{font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--dark);}
+.lightbox-meta{font-size:12px;color:var(--muted);margin-top:3px;}
+.lightbox-note{font-size:13px;color:#374151;margin-top:8px;line-height:1.5;}
+.lightbox-actions{margin-top:12px;display:flex;gap:8px;}
 
 /* ═══ MOOD RATING (per day) ═══ */
 .mood-row{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
@@ -1651,8 +1740,20 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     </div>
     <div class="exp-row">
       <input type="text" id="expDesc" class="exp-input" placeholder="Mô tả (vd: Ăn trưa hải sản Pattaya)" maxlength="60">
-      <input type="number" id="expAmt" class="exp-input exp-amt" placeholder="Số tiền ฿" min="0" step="1" inputmode="numeric">
-      <button class="exp-add" onclick="addExpense()">➕ Thêm</button>
+      <select id="expCurrency" class="exp-input exp-cur">
+        <option value="THB">฿ THB</option>
+        <option value="VND">₫ VND</option>
+        <option value="USD">$ USD</option>
+      </select>
+      <input type="number" id="expAmt" class="exp-input exp-amt" placeholder="Số tiền" min="0" step="1" inputmode="numeric">
+    </div>
+    <div class="exp-row">
+      <select id="expPaidBy" class="exp-input">
+        <option value="Hiếu">💰 Hiếu trả</option>
+        <option value="Ly">💰 Ly trả</option>
+        <option value="Chung">🤝 Chung (chia đôi)</option>
+      </select>
+      <button class="exp-add" onclick="addExpense()">➕ Thêm khoản chi</button>
     </div>
   </div>
 
@@ -1675,9 +1776,23 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </div>
   <div class="prog-bar"><div class="prog-fill" id="expProgFill" style="width:0%;background:linear-gradient(90deg,var(--d3),#34D399);"></div></div>
 
+  <div class="exp-payer-row" id="expPayerRow">
+    <div class="exp-payer-chip"><span class="exp-payer-name">💰 Hiếu đã trả</span><span class="exp-payer-amt" id="expPaidHieu">0 ฿</span></div>
+    <div class="exp-payer-chip"><span class="exp-payer-name">💰 Ly đã trả</span><span class="exp-payer-amt" id="expPaidLy">0 ฿</span></div>
+    <div class="exp-payer-chip"><span class="exp-payer-name">🤝 Chung</span><span class="exp-payer-amt" id="expPaidChung">0 ฿</span></div>
+  </div>
+
   <div id="expList" class="exp-list">
     <div class="exp-empty" id="expEmpty">Chưa có khoản chi nào — thêm khoản đầu tiên ở trên 👆</div>
   </div>
+
+  <div class="exp-tools-row">
+    <button class="exp-tool-btn" onclick="exportExpensesCSV()">📤 Xuất CSV (mở bằng Excel/Sheets)</button>
+    <button class="exp-tool-btn" onclick="exportAllData()">📦 Sao lưu toàn bộ dữ liệu</button>
+    <label class="exp-tool-btn" for="importFile">📥 Phục hồi từ file sao lưu</label>
+    <input type="file" id="importFile" accept="application/json" style="display:none;" onchange="importAllData(event)">
+  </div>
+  <p class="exp-tools-hint">Xuất CSV để tính toán lại chi tiết trong Excel sau chuyến đi. Sao lưu JSON để chuyển dữ liệu sang máy/trình duyệt khác hoặc phòng khi mất dữ liệu.</p>
   <button class="exp-reset" onclick="resetExpenses()">🗑️ Xoá toàn bộ sổ chi tiêu</button>
 </section>
 
@@ -1730,10 +1845,37 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   <div class="prog-bar"><div class="prog-fill" id="pinProgFill" style="background:linear-gradient(90deg,var(--gold),#A67A28);"></div></div>
   <div class="pin-badge" id="pinBadge">🏅 Xuất sắc! Bạn đã ghé đủ các điểm chính trong hành trình!</div>
 
+  <div class="sec-title" style="font-size:15px;margin-top:22px;">🗺️ Bản Đồ Hành Trình</div>
+  <p class="map-hint">Bản đồ minh hoạ (không theo tỉ lệ thật) — mỗi điểm ghé qua sẽ "sáng đèn" kèm ảnh bạn chụp. Chấm mờ là điểm <strong>chưa ghé</strong>, bấm vào để check-in nhanh!</p>
+  <div class="map-wrap" id="mapWrap">
+    <div class="map-zone map-bangkok" id="mapBangkok">
+      <div class="map-river"></div>
+      <div class="map-zone-label">🏙️ Bangkok</div>
+    </div>
+    <div class="map-route-chip"><span>🚌</span><span>~2 giờ</span><span class="arr">→</span></div>
+    <div class="map-zone map-pattaya" id="mapPattaya">
+      <div class="map-zone-label">🏖️ Pattaya</div>
+    </div>
+  </div>
+
   <div id="pinGrid" class="pin-grid">
     <div class="pin-empty" id="pinEmpty">Chưa check-in điểm nào — thêm điểm đầu tiên ở trên 👆</div>
   </div>
 </section>
+
+<!-- LIGHTBOX (dùng chung cho map + gallery check-in) -->
+<div class="lightbox-backdrop" id="lightboxBackdrop" onclick="if(event.target===this) closeLightbox()">
+  <div class="lightbox-card">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Đóng">✕</button>
+    <div id="lightboxMedia"></div>
+    <div class="lightbox-body">
+      <div class="lightbox-name" id="lightboxName"></div>
+      <div class="lightbox-meta" id="lightboxMeta"></div>
+      <div class="lightbox-note" id="lightboxNote"></div>
+      <div class="lightbox-actions"><a class="pin-maps" id="lightboxMaps" href="#" target="_blank">🗺️ Xem trên Google Maps</a></div>
+    </div>
+  </div>
+</div>
 
 <!-- ════ FOOD ════ -->
 <section class="sec reveal" id="food">
@@ -2013,27 +2155,40 @@ try{ loadChecklist(); updateProgress(); }catch(e){ console.error(e); }
 const EXP_KEY = 'bkk2026_expenses';
 const EXP_BUDGET_THB = 16000;
 const THB_TO_VND = 850;
+const FX_TO_VND = { THB: 850, USD: 26000, VND: 1 };
+const CUR_SYMBOL = { THB: '฿', USD: '$', VND: '₫' };
+const PAYER_LABEL = { 'Hiếu': '💰 Hiếu trả', 'Ly': '💰 Ly trả', 'Chung': '🤝 Chung' };
 const EXP_DAY_LABEL = {pre:'🧳 Trước đi', '0':'Ngày 1 · 27/8', '1':'Ngày 2 · 28/8', '2':'Ngày 3 · 29/8', '3':'Ngày 4 · 30/8', '4':'Ngày 5 · 31/8', post:'🏠 Sau về'};
 let expenses = [];
 
 function loadExpenses(){
   try{ expenses = JSON.parse(localStorage.getItem(EXP_KEY)) || []; }catch(e){ expenses = []; }
+  // tương thích dữ liệu cũ chưa có currency/paidBy
+  expenses.forEach(e=>{ if(!e.currency) e.currency = 'THB'; if(!e.paidBy) e.paidBy = 'Chung'; });
 }
 function saveExpenses(){
   try{ localStorage.setItem(EXP_KEY, JSON.stringify(expenses)); }catch(e){}
 }
-function fmtThb(n){ return n.toLocaleString('vi-VN')+' ฿'; }
+function fmtThb(n){ return Math.round(n).toLocaleString('vi-VN')+' ฿'; }
 function fmtVnd(n){ return Math.round(n*THB_TO_VND).toLocaleString('vi-VN')+' VND'; }
+function toTHB(amt, cur){ return (amt * (FX_TO_VND[cur]||FX_TO_VND.THB)) / FX_TO_VND.THB; }
+function fmtCur(amt, cur){
+  const sym = CUR_SYMBOL[cur] || cur;
+  const n = amt.toLocaleString('vi-VN');
+  return cur === 'USD' ? (sym+n) : (n+' '+sym);
+}
 
 function addExpense(){
   const day = document.getElementById('expDay').value;
   const cat = document.getElementById('expCat').value;
   const descEl = document.getElementById('expDesc');
   const amtEl = document.getElementById('expAmt');
+  const currency = document.getElementById('expCurrency').value;
+  const paidBy = document.getElementById('expPaidBy').value;
   const amt = parseFloat(amtEl.value);
   if(!amt || amt <= 0){ amtEl.focus(); return; }
   const desc = descEl.value.trim() || cat.replace(/^\S+\s/,'');
-  expenses.unshift({ id: Date.now(), day, cat, desc, amt });
+  expenses.unshift({ id: Date.now(), day, cat, desc, amt, currency, paidBy, time: new Date().toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) });
   saveExpenses();
   descEl.value = ''; amtEl.value = '';
   descEl.focus();
@@ -2052,7 +2207,7 @@ function resetExpenses(){
 }
 function renderExpenses(){
   const list = document.getElementById('expList');
-  const total = expenses.reduce((s,e)=>s+e.amt,0);
+  const total = expenses.reduce((s,e)=>s+toTHB(e.amt, e.currency),0);
   document.getElementById('expTotalThb').textContent = fmtThb(total);
   document.getElementById('expTotalVnd').textContent = fmtVnd(total);
 
@@ -2068,6 +2223,13 @@ function renderExpenses(){
   const fill = document.getElementById('expProgFill');
   fill.style.width = Math.min(100, ratio*100)+'%';
   fill.style.background = ratio>1 ? 'linear-gradient(90deg,#F43F5E,#BE123C)' : ratio>=0.8 ? 'linear-gradient(90deg,#F59E0B,#F97316)' : 'linear-gradient(90deg,var(--d3),#34D399)';
+
+  const byPayer = { 'Hiếu':0, 'Ly':0, 'Chung':0 };
+  expenses.forEach(e=>{ byPayer[e.paidBy] = (byPayer[e.paidBy]||0) + toTHB(e.amt, e.currency); });
+  document.getElementById('expPaidHieu').textContent = fmtThb(byPayer['Hiếu']);
+  document.getElementById('expPaidLy').textContent = fmtThb(byPayer['Ly']);
+  document.getElementById('expPaidChung').textContent = fmtThb(byPayer['Chung']);
+
   if(typeof renderWrapped === 'function') renderWrapped();
 
   if(!expenses.length){
@@ -2080,7 +2242,7 @@ function renderExpenses(){
     return '<div class="exp-item">'
       + '<span class="exp-item-cat">'+icon+'</span>'
       + '<div class="exp-item-main"><div class="exp-item-desc">'+escapeHtml(e.desc)+'</div><div class="exp-item-meta">'+dayLabel+'</div></div>'
-      + '<span class="exp-item-amt">'+fmtThb(e.amt)+'</span>'
+      + '<span class="exp-item-amt">'+fmtCur(e.amt, e.currency)+'<span class="exp-item-payer">'+(PAYER_LABEL[e.paidBy]||e.paidBy)+'</span></span>'
       + '<button class="exp-del" onclick="delExpense('+e.id+')" aria-label="Xoá">✕</button>'
       + '</div>';
   }).join('');
@@ -2089,6 +2251,64 @@ function escapeHtml(s){
   const d = document.createElement('div');
   d.textContent = s;
   return d.innerHTML;
+}
+
+/* ── XUẤT / SAO LƯU DỮ LIỆU ── */
+function downloadFile(filename, content, mime){
+  const blob = new Blob([content], {type: mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+function csvEscape(v){
+  const s = String(v);
+  return /[",\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+}
+function exportExpensesCSV(){
+  if(!expenses.length){ alert('Chưa có khoản chi nào để xuất.'); return; }
+  const header = ['Ngày','Danh mục','Mô tả','Số tiền','Đơn vị','Quy đổi (THB)','Quy đổi (VND)','Người trả','Thời gian ghi'];
+  const rows = expenses.slice().reverse().map(e=>[
+    EXP_DAY_LABEL[e.day]||e.day, e.cat, e.desc, e.amt, e.currency,
+    Math.round(toTHB(e.amt,e.currency)), Math.round(toTHB(e.amt,e.currency)*THB_TO_VND),
+    e.paidBy, e.time||''
+  ]);
+  const csv = [header, ...rows].map(r=>r.map(csvEscape).join(',')).join('\n');
+  downloadFile('so-chi-tieu-bangkok-2026.csv', '﻿'+csv, 'text/csv;charset=utf-8');
+}
+function exportAllData(){
+  const data = {
+    expenses,
+    checkins: (typeof checkins!=='undefined') ? checkins : [],
+    moods: (typeof moods!=='undefined') ? moods : {},
+    checklist: (function(){ try{ return JSON.parse(localStorage.getItem(CB_KEY))||[]; }catch(e){ return []; } })(),
+    notes: (function(){ try{ return JSON.parse(localStorage.getItem(NOTE_KEY))||{}; }catch(e){ return {}; } })(),
+    exportedAt: new Date().toLocaleString('vi-VN')
+  };
+  downloadFile('bangkok-trip-backup.json', JSON.stringify(data, null, 2), 'application/json');
+}
+function importAllData(evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    let data;
+    try{ data = JSON.parse(e.target.result); }
+    catch(err){ alert('File không hợp lệ.'); return; }
+    if(!confirm('Phục hồi sẽ GHI ĐÈ dữ liệu hiện tại trên máy này. Tiếp tục?')) return;
+    try{
+      if(data.expenses) localStorage.setItem(EXP_KEY, JSON.stringify(data.expenses));
+      if(data.checkins) localStorage.setItem(PIN_KEY, JSON.stringify(data.checkins));
+      if(data.moods) localStorage.setItem(MOOD_KEY, JSON.stringify(data.moods));
+      if(data.checklist) localStorage.setItem(CB_KEY, JSON.stringify(data.checklist));
+      if(data.notes) localStorage.setItem(NOTE_KEY, JSON.stringify(data.notes));
+      alert('Đã phục hồi dữ liệu! Trang sẽ tải lại.');
+      location.reload();
+    }catch(err){ alert('Không thể phục hồi: '+err.message); }
+  };
+  reader.readAsText(file);
+  evt.target.value = '';
 }
 try{ loadExpenses(); renderExpenses(); }catch(e){ console.error(e); }
 
@@ -2162,6 +2382,29 @@ const PIN_MAPS = {
   'King Power':'King Power Bangkok'
 };
 const PIN_KNOWN_COUNT = Object.keys(PIN_MAPS).length;
+// Toạ độ minh hoạ (không theo GPS thật) để đặt ghim trên bản đồ cách điệu
+const MAP_COORDS = {
+  'Wat Arun': {zone:'bkk', top:58, left:20},
+  'Grand Palace': {zone:'bkk', top:54, left:30},
+  'Chinatown Yaowarat': {zone:'bkk', top:46, left:37},
+  'Khao San Road': {zone:'bkk', top:36, left:31},
+  'ICONSIAM / Sook Siam': {zone:'bkk', top:66, left:26},
+  'Asiatique The Riverfront': {zone:'bkk', top:76, left:33},
+  'Siam Paragon': {zone:'bkk', top:42, left:52},
+  'Central World': {zone:'bkk', top:37, left:56},
+  'Palladium Night Market': {zone:'bkk', top:33, left:61},
+  'Pratunam Market': {zone:'bkk', top:29, left:59},
+  'Platinum Fashion Mall': {zone:'bkk', top:26, left:63},
+  'King Power': {zone:'bkk', top:23, left:67},
+  'Terminal 21 Asok': {zone:'bkk', top:47, left:74},
+  'Chatuchak Weekend Market': {zone:'bkk', top:18, left:46},
+  'Or Tor Kor Market': {zone:'bkk', top:20, left:53},
+  'MOCA Bangkok': {zone:'bkk', top:14, left:62},
+  'Sân bay Suvarnabhumi': {zone:'bkk', top:62, left:90},
+  'Khách sạn': {zone:'bkk', top:40, left:46},
+  'Sanctuary of Truth': {zone:'pty', top:24, left:42},
+  'Jomtien Beach': {zone:'pty', top:72, left:55}
+};
 let checkins = [];
 let pendingPhoto = null;
 
@@ -2218,6 +2461,7 @@ function addCheckin(){
   lbl.classList.remove('has-photo');
   document.getElementById('pinPhoto').value = '';
   renderCheckins();
+  renderMap(place);
   const knownVisited = new Set(checkins.map(c=>c.place)).size;
   if(knownVisited === PIN_KNOWN_COUNT || checkins.length===5 || checkins.length===15) fireConfetti();
   renderWrapped();
@@ -2226,6 +2470,7 @@ function delCheckin(id){
   checkins = checkins.filter(c=>c.id!==id);
   saveCheckins();
   renderCheckins();
+  renderMap();
   renderWrapped();
 }
 function mapsUrlFor(place){
@@ -2257,13 +2502,92 @@ function renderCheckins(){
       + '</div></div></div>';
   }).join('');
 }
-try{ loadCheckins(); renderCheckins(); }catch(e){ console.error(e); }
+/* ── CHECK-IN MAP (ghim ma, ảnh khi ghé, click để check-in nhanh hoặc xem lại) ── */
+function renderMap(justCheckedPlace){
+  const zones = { bkk: document.getElementById('mapBangkok'), pty: document.getElementById('mapPattaya') };
+  if(!zones.bkk || !zones.pty) return;
+  zones.bkk.querySelectorAll('.map-pin').forEach(p=>p.remove());
+  zones.pty.querySelectorAll('.map-pin').forEach(p=>p.remove());
+
+  const latestByPlace = {};
+  checkins.forEach(c=>{ if(!latestByPlace[c.place] || c.id > latestByPlace[c.place].id) latestByPlace[c.place] = c; });
+
+  Object.keys(MAP_COORDS).forEach(place=>{
+    const coord = MAP_COORDS[place];
+    const zoneEl = zones[coord.zone];
+    if(!zoneEl) return;
+    const visit = latestByPlace[place];
+
+    const pin = document.createElement('div');
+    pin.className = 'map-pin ' + (visit ? 'visited' : 'ghost') + (visit && visit.photo ? ' has-photo' : '');
+    pin.style.top = coord.top+'%';
+    pin.style.left = coord.left+'%';
+    pin.title = place;
+    if(visit && place === justCheckedPlace) pin.classList.add('just-checked');
+
+    const mark = document.createElement('div');
+    mark.className = 'map-pin-mark';
+    if(visit && visit.photo){
+      const img = document.createElement('img');
+      img.src = visit.photo; img.alt = '';
+      mark.appendChild(img);
+    }else{
+      mark.textContent = visit ? '📍' : '·';
+    }
+    pin.appendChild(mark);
+
+    const label = document.createElement('div');
+    label.className = 'map-pin-label';
+    label.textContent = place;
+    pin.appendChild(label);
+
+    pin.addEventListener('click', ()=>{
+      if(visit){ openLightbox(visit); }
+      else{
+        const sel = document.getElementById('pinPlace');
+        if(Array.prototype.some.call(sel.options, o=>o.value===place)) sel.value = place;
+        onPinPlaceChange();
+        const sec = document.getElementById('checkin');
+        if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
+        setTimeout(()=>{ const n=document.getElementById('pinNote'); if(n) n.focus(); }, 500);
+      }
+    });
+
+    zoneEl.appendChild(pin);
+  });
+}
+function openLightbox(c){
+  const backdrop = document.getElementById('lightboxBackdrop');
+  const media = document.getElementById('lightboxMedia');
+  media.innerHTML = '';
+  if(c.photo){
+    const img = document.createElement('img');
+    img.className = 'lightbox-photo'; img.src = c.photo; img.alt = c.place;
+    media.appendChild(img);
+  }else{
+    const ph = document.createElement('div');
+    ph.className = 'lightbox-noPhoto'; ph.textContent = '📍';
+    media.appendChild(ph);
+  }
+  document.getElementById('lightboxName').textContent = c.place;
+  document.getElementById('lightboxMeta').textContent = c.time || '';
+  document.getElementById('lightboxNote').textContent = c.note || '';
+  document.getElementById('lightboxMaps').href = mapsUrlFor(c.place);
+  backdrop.classList.add('show');
+}
+function closeLightbox(){
+  const backdrop = document.getElementById('lightboxBackdrop');
+  if(backdrop) backdrop.classList.remove('show');
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLightbox(); });
+
+try{ loadCheckins(); renderCheckins(); renderMap(); }catch(e){ console.error(e); }
 
 /* ── TRIP WRAPPED (aggregated recap card, updates live from all features above) ── */
 function renderWrapped(){
   const spentEl = document.getElementById('wrapSpent');
   if(!spentEl) return;
-  const totalSpent = (typeof expenses !== 'undefined' ? expenses : []).reduce((s,e)=>s+e.amt,0);
+  const totalSpent = (typeof expenses !== 'undefined' ? expenses : []).reduce((s,e)=>s+toTHB(e.amt, e.currency),0);
   spentEl.textContent = fmtThb(totalSpent);
   document.getElementById('wrapPlaces').textContent = checkins.length;
   document.getElementById('wrapPhotos').textContent = checkins.filter(c=>c.photo).length;
