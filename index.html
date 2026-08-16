@@ -1867,7 +1867,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   <div style="font-size:26px;margin-bottom:8px;">🌺 สวัสดีค่ะ 🌺</div>
   <strong>Chúc Hiếu và người bạn đồng hành có chuyến Bangkok × Pattaya thật tuyệt vời! 🇹🇭✨</strong>
   <div style="margin-top:6px;font-size:12px;opacity:.55;">27–31 tháng 8 năm 2026 · SGN ↔ BKK · Vietjet Air · 2 girls, self-guided</div>
-  <div style="margin-top:10px;font-size:10px;opacity:.4;">🎵 Nhạc nền chuông gió ngũ cung — tự tạo bằng trình duyệt, không cần mạng</div>
+  <div style="margin-top:10px;font-size:10px;opacity:.4;">🎵 Nhạc nền: "Thatched Villagers" by Kevin MacLeod (incompetech.com) — Licensed under Creative Commons: By Attribution 3.0</div>
 </div>
 
 <!-- BOTTOM NAV (mobile) -->
@@ -1894,12 +1894,15 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </a>
 </nav>
 
-<!-- MUSIC TOGGLE (nhạc nền tạo bằng Web Audio — không cần mạng, luôn hoạt động) -->
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Bật/tắt nhạc nền Thái êm dịu (tự tạo, không cần mạng)">
+<!-- MUSIC TOGGLE (nhạc nền thật — "Thatched Villagers" by Kevin MacLeod, CC BY 3.0) -->
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Bật/tắt nhạc nền">
   <span id="musicIcon">🎵</span>
   <span class="music-note" style="left:6px;">♪</span>
   <span class="music-note" style="right:6px;animation-delay:.9s;">♫</span>
 </button>
+<audio id="bgMusic" loop preload="none">
+  <source src="audio/thatched-villagers.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 /* ── DAY TABS ── */
@@ -2344,143 +2347,27 @@ try{
   document.querySelectorAll('.reveal').forEach(el=>{ el.classList.add('in'); el.classList.remove('pre'); });
 }
 
-/* ── BACKGROUND MUSIC (nhạc nền êm dịu tự tạo bằng Web Audio — không cần mạng, luôn phát được) ── */
+/* ── BACKGROUND MUSIC (Thatched Villagers, Kevin MacLeod, CC BY 3.0) — file thật, phát qua thẻ audio ── */
 let musicPlaying = false;
-let audioCtx = null, masterGain = null, droneStarted = false, noteTimer = null;
-let compressor = null, delayNode = null, delayFeedback = null, delayFilter = null, wetGain = null;
-let droneFilter = null, droneLFO = null;
-let scaleIdx = 4;
-const PENTA = [220.00,246.94,293.66,329.63,392.00,440.00,493.88,587.33,659.25,783.99]; // La ngũ cung — ấm, dịu
-
-function ensureAudio(){
-  if(audioCtx) return true;
-  try{
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    compressor = audioCtx.createDynamicsCompressor();
-    compressor.threshold.value = -20; compressor.ratio.value = 3.5;
-    compressor.connect(audioCtx.destination);
-
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0;
-    masterGain.connect(compressor);
-
-    // Delay/feedback đóng vai trò vang âm không gian, cho cảm giác "thính phòng" thay vì tiếng khô
-    delayNode = audioCtx.createDelay(2.0);
-    delayNode.delayTime.value = 0.44;
-    delayFeedback = audioCtx.createGain();
-    delayFeedback.gain.value = 0.4;
-    delayFilter = audioCtx.createBiquadFilter();
-    delayFilter.type = 'lowpass';
-    delayFilter.frequency.value = 2100;
-    wetGain = audioCtx.createGain();
-    wetGain.gain.value = 0.55;
-
-    masterGain.connect(delayNode);
-    delayNode.connect(delayFilter);
-    delayFilter.connect(delayFeedback);
-    delayFeedback.connect(delayNode);
-    delayFilter.connect(wetGain);
-    wetGain.connect(compressor);
-
-    return true;
-  }catch(e){ return false; }
-}
-function startDrone(){
-  droneFilter = audioCtx.createBiquadFilter();
-  droneFilter.type = 'lowpass';
-  droneFilter.frequency.value = 650;
-  droneFilter.connect(masterGain);
-
-  // LFO rất chậm làm bộ lọc "thở" nhẹ theo thời gian, tránh cảm giác tiếng nền tĩnh/máy móc
-  droneLFO = audioCtx.createOscillator();
-  droneLFO.frequency.value = 0.045;
-  const droneLFOGain = audioCtx.createGain();
-  droneLFOGain.gain.value = 150;
-  droneLFO.connect(droneLFOGain);
-  droneLFOGain.connect(droneFilter.frequency);
-  droneLFO.start();
-
-  [110.00, 164.81].forEach((freq,i)=>{ // A2 + E3, quãng 5 ấm áp
-    const osc = audioCtx.createOscillator();
-    osc.type = 'sine';
-    osc.frequency.value = freq;
-    osc.detune.value = i===0 ? -5 : 5;
-    const g = audioCtx.createGain();
-    g.gain.value = i===0 ? 0.07 : 0.04;
-    osc.connect(g).connect(droneFilter);
-    osc.start();
-  });
-  droneStarted = true;
-}
-function pluckNote(){
-  // Đi theo từng bước liền kề trong thang âm thay vì nhảy ngẫu nhiên hoàn toàn — nghe có giai điệu hơn
-  const step = Math.random() < 0.75 ? (Math.random()<0.5?-1:1) : (Math.random()<0.5?-2:2);
-  scaleIdx = Math.max(0, Math.min(PENTA.length-1, scaleIdx+step));
-  const freq = PENTA[scaleIdx];
-  const now = audioCtx.currentTime;
-
-  let dest = masterGain;
-  if(typeof audioCtx.createStereoPanner === 'function'){
-    const pan = audioCtx.createStereoPanner();
-    pan.pan.value = Math.random()*1.3-0.65;
-    pan.connect(masterGain);
-    dest = pan;
-  }
-
-  const osc = audioCtx.createOscillator();
-  osc.type = 'triangle';
-  osc.frequency.value = freq;
-  osc.detune.value = Math.random()*6-3;
-  const g = audioCtx.createGain();
-  g.gain.setValueAtTime(0, now);
-  g.gain.linearRampToValueAtTime(0.13, now+0.06);
-  g.gain.exponentialRampToValueAtTime(0.0008, now+3.6);
-  osc.connect(g).connect(dest);
-  osc.start(now); osc.stop(now+3.7);
-
-  const overtone = audioCtx.createOscillator();
-  overtone.type = 'sine';
-  overtone.frequency.value = freq*2.005;
-  const og = audioCtx.createGain();
-  og.gain.setValueAtTime(0, now);
-  og.gain.linearRampToValueAtTime(0.045, now+0.04);
-  og.gain.exponentialRampToValueAtTime(0.0005, now+1.8);
-  overtone.connect(og).connect(dest);
-  overtone.start(now); overtone.stop(now+1.9);
-
-  const overtone3 = audioCtx.createOscillator();
-  overtone3.type = 'sine';
-  overtone3.frequency.value = freq*2.99;
-  const og3 = audioCtx.createGain();
-  og3.gain.setValueAtTime(0, now);
-  og3.gain.linearRampToValueAtTime(0.016, now+0.03);
-  og3.gain.exponentialRampToValueAtTime(0.0003, now+1.1);
-  overtone3.connect(og3).connect(dest);
-  overtone3.start(now); overtone3.stop(now+1.2);
-}
-function scheduleNotes(){
-  pluckNote();
-  if(Math.random() < 0.22) setTimeout(()=>{ if(musicPlaying) pluckNote(); }, 320+Math.random()*260);
-  noteTimer = setTimeout(scheduleNotes, 1300+Math.random()*2000);
-}
+const bgMusic = document.getElementById('bgMusic');
+if(bgMusic) bgMusic.volume = 0.55;
 function toggleMusic(){
-  if(!ensureAudio()){ alert('Trình duyệt này không hỗ trợ phát âm thanh.'); return; }
-  musicPlaying = !musicPlaying;
+  if(!bgMusic){ alert('Trình duyệt này không hỗ trợ phát âm thanh.'); return; }
   const btn = document.getElementById('musicBtn');
-  btn.classList.toggle('playing', musicPlaying);
-  document.getElementById('musicIcon').textContent = musicPlaying ? '⏸' : '🎵';
   btn.classList.remove('hint');
-  if(musicPlaying){
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-    if(!droneStarted) startDrone();
-    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-    masterGain.gain.linearRampToValueAtTime(0.9, audioCtx.currentTime+1.6);
-    scheduleNotes();
+  if(bgMusic.paused){
+    bgMusic.play().then(()=>{
+      musicPlaying = true;
+      btn.classList.add('playing');
+      document.getElementById('musicIcon').textContent = '⏸';
+    }).catch(()=>{
+      alert('Trình duyệt chặn tự phát nhạc — bấm lại nút 🎵 một lần nữa nhé.');
+    });
   }else{
-    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-    masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+0.8);
-    clearTimeout(noteTimer);
+    bgMusic.pause();
+    musicPlaying = false;
+    btn.classList.remove('playing');
+    document.getElementById('musicIcon').textContent = '🎵';
   }
 }
 setTimeout(()=>{
