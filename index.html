@@ -546,6 +546,21 @@ body{
 .music-btn.hint{animation:attn 1s ease-in-out 3;}
 @keyframes attn{0%,100%{transform:scale(1);}50%{transform:scale(1.16);}}
 
+.yt-panel{
+  position:fixed;right:16px;bottom:calc(136px + var(--safe-b));z-index:251;
+  width:min(260px, calc(100vw - 32px));background:#fff;border-radius:14px;
+  box-shadow:0 12px 32px rgba(0,0,0,.3);overflow:hidden;display:none;border:1px solid var(--border);
+}
+@media(min-width:700px){.yt-panel{bottom:82px;}}
+.yt-panel.show{display:block;}
+.yt-close{
+  position:absolute;top:6px;right:6px;z-index:2;width:24px;height:24px;border-radius:50%;
+  background:rgba(0,0,0,.55);color:#fff;border:none;font-size:12px;cursor:pointer;
+}
+.yt-frame-wrap{width:100%;aspect-ratio:16/9;background:#000;}
+.yt-frame-wrap iframe{width:100%;height:100%;display:block;border:0;}
+.yt-credit{font-size:10px;color:var(--muted);text-align:center;padding:6px 8px;background:var(--cream);}
+
 /* ═══ CONFETTI ═══ */
 .confetti-piece{position:fixed;top:-20px;width:9px;height:14px;z-index:999;pointer-events:none;animation:confetti-fall linear forwards;}
 @keyframes confetti-fall{
@@ -2036,7 +2051,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   <div style="font-size:26px;margin-bottom:8px;">🌺 สวัสดีค่ะ 🌺</div>
   <strong>Chúc Hiếu và người bạn đồng hành có chuyến Bangkok × Pattaya thật tuyệt vời! <span class="th-flag th-flag-sm" role="img" aria-label="Cờ Thái Lan"></span> ✨</strong>
   <div style="margin-top:6px;font-size:12px;opacity:.55;">27–31 tháng 8 năm 2026 · SGN ↔ BKK · Vietjet Air · 2 girls, self-guided</div>
-  <div style="margin-top:10px;font-size:10px;opacity:.4;">🎵 Nhạc nền: "Thatched Villagers" by Kevin MacLeod (incompetech.com) — Licensed under Creative Commons: By Attribution 3.0</div>
+  <div style="margin-top:10px;font-size:10px;opacity:.4;">🎵 Nhạc nền: "คุกกี้เสี่ยงทาย (Koisuru Fortune Cookie)" – BNK48, phát trực tiếp qua YouTube (kênh chính chủ)</div>
 </div>
 
 <!-- BOTTOM NAV (mobile) -->
@@ -2063,15 +2078,17 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </a>
 </nav>
 
-<!-- MUSIC TOGGLE (nhạc nền thật — "Thatched Villagers" by Kevin MacLeod, CC BY 3.0) -->
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Bật/tắt nhạc nền">
+<!-- MUSIC TOGGLE (nhạc tiếng Thái thật — nhúng từ YouTube, kênh chính chủ BNK48) -->
+<div class="yt-panel" id="ytPanel">
+  <button class="yt-close" onclick="toggleMusic()" aria-label="Đóng">✕</button>
+  <div class="yt-frame-wrap" id="ytFrameWrap"></div>
+  <div class="yt-credit">🎵 คุกกี้เสี่ยงทาย (Koisuru Fortune Cookie) – BNK48</div>
+</div>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Bật/tắt nhạc nền tiếng Thái">
   <span id="musicIcon">🎵</span>
   <span class="music-note" style="left:6px;">♪</span>
   <span class="music-note" style="right:6px;animation-delay:.9s;">♫</span>
 </button>
-<audio id="bgMusic" loop preload="none">
-  <source src="audio/thatched-villagers.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 /* ── DAY TABS ── */
@@ -2700,25 +2717,30 @@ try{
   document.querySelectorAll('.reveal').forEach(el=>{ el.classList.add('in'); el.classList.remove('pre'); });
 }
 
-/* ── BACKGROUND MUSIC (Thatched Villagers, Kevin MacLeod, CC BY 3.0) — file thật, phát qua thẻ audio ── */
+/* ── BACKGROUND MUSIC (nhạc tiếng Thái thật, nhúng từ YouTube — kênh chính chủ BNK48) ── */
 let musicPlaying = false;
-const bgMusic = document.getElementById('bgMusic');
-if(bgMusic) bgMusic.volume = 0.55;
+const YT_VIDEO_ID = 'mfqJyKm20Z4'; // Koisuru Fortune Cookie – คุกกี้เสี่ยงทาย (BNK48, kênh chính thức)
 function toggleMusic(){
-  if(!bgMusic){ alert('Trình duyệt này không hỗ trợ phát âm thanh.'); return; }
   const btn = document.getElementById('musicBtn');
+  const panel = document.getElementById('ytPanel');
+  const wrap = document.getElementById('ytFrameWrap');
   btn.classList.remove('hint');
-  if(bgMusic.paused){
-    bgMusic.play().then(()=>{
-      musicPlaying = true;
-      btn.classList.add('playing');
-      document.getElementById('musicIcon').textContent = '⏸';
-    }).catch(()=>{
-      alert('Trình duyệt chặn tự phát nhạc — bấm lại nút 🎵 một lần nữa nhé.');
-    });
+  musicPlaying = !musicPlaying;
+  if(musicPlaying){
+    wrap.innerHTML = '';
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/'+YT_VIDEO_ID+'?autoplay=1&loop=1&playlist='+YT_VIDEO_ID;
+    iframe.title = 'Nhạc nền tiếng Thái';
+    iframe.setAttribute('allow','autoplay; encrypted-media');
+    iframe.setAttribute('allowfullscreen','');
+    iframe.frameBorder = '0';
+    wrap.appendChild(iframe);
+    panel.classList.add('show');
+    btn.classList.add('playing');
+    document.getElementById('musicIcon').textContent = '⏸';
   }else{
-    bgMusic.pause();
-    musicPlaying = false;
+    wrap.innerHTML = '';
+    panel.classList.remove('show');
     btn.classList.remove('playing');
     document.getElementById('musicIcon').textContent = '🎵';
   }
