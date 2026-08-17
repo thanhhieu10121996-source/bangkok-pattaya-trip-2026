@@ -62,7 +62,21 @@ body{
   padding:38px 20px 28px;text-align:center;position:relative;overflow:hidden;
 }
 .hero-bg{position:absolute;inset:0;opacity:.05;font-size:64px;display:flex;align-items:center;justify-content:center;letter-spacing:24px;pointer-events:none;filter:blur(2px);}
-.hero-flag{font-size:44px;margin-bottom:8px;display:block;}
+.hero-flag{margin:0 auto 10px;display:block;}
+/* Cờ Thái Lan vẽ bằng CSS — nhiều máy tính bàn (đặc biệt Windows) không có font hiển thị emoji cờ,
+   chỉ hiện chữ "TH" hoặc ô trống, nên vẽ trực tiếp để hiển thị đúng trên mọi hệ điều hành/trình duyệt. */
+.th-flag{
+  display:inline-block;border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.3);
+  background:linear-gradient(to bottom,
+    #A51931 0%,#A51931 16.667%,
+    #F4F5F0 16.667%,#F4F5F0 33.333%,
+    #2D2A4A 33.333%,#2D2A4A 66.667%,
+    #F4F5F0 66.667%,#F4F5F0 83.333%,
+    #A51931 83.333%,#A51931 100%);
+  vertical-align:middle;
+}
+.th-flag-lg{width:64px;height:43px;}
+.th-flag-sm{width:20px;height:13px;border-radius:2px;box-shadow:none;}
 .hero h1{font-family:var(--font-display);font-size:26px;font-weight:900;color:#fff;letter-spacing:-.3px;line-height:1.15;}
 @media(min-width:480px){.hero h1{font-size:32px;}}
 .hero-sub{color:rgba(255,255,255,.75);font-size:13px;margin-top:6px;line-height:1.5;}
@@ -818,7 +832,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   <span class="hero-float" style="top:20%;right:12%;animation-delay:1.4s;">🪷</span>
   <span class="hero-float" style="top:60%;left:6%;animation-delay:2.8s;">✨</span>
   <span class="hero-float" style="top:65%;right:8%;animation-delay:.9s;">🐘</span>
-  <span class="hero-flag">🇹🇭</span>
+  <span class="hero-flag"><span class="th-flag th-flag-lg" role="img" aria-label="Cờ Thái Lan"></span></span>
   <h1>Bangkok × Pattaya 2026</h1>
   <p class="hero-sub">27 – 31 tháng 8 &nbsp;·&nbsp; 4 đêm 5 ngày &nbsp;·&nbsp; 2 girls trip</p>
   <div class="hero-pills">
@@ -1524,7 +1538,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-dot" style="color:var(--d3)"></div>
           <div class="tl-time">21:25</div>
           <div class="tl-title">🏠 Về đến Hồ Chí Minh! 🇻🇳</div>
-          <div class="tl-desc">Hạ cánh TSN 21:25. Kết thúc chuyến đi tuyệt vời – cả túi đồ lẫn ngàn kỷ niệm đẹp! 🇹🇭✨</div>
+          <div class="tl-desc">Hạ cánh TSN 21:25. Kết thúc chuyến đi tuyệt vời – cả túi đồ lẫn ngàn kỷ niệm đẹp! <span class="th-flag th-flag-sm" role="img" aria-label="Cờ Thái Lan"></span> ✨</div>
         </div>
       </div>
       <div class="mood-row" data-mood-day="4">
@@ -2020,7 +2034,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <div class="footer">
   <div class="footer-wave"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,50 C240,0 480,90 720,50 C960,10 1200,80 1440,40 L1440,0 L0,0 Z" fill="#1C1410"/></svg></div>
   <div style="font-size:26px;margin-bottom:8px;">🌺 สวัสดีค่ะ 🌺</div>
-  <strong>Chúc Hiếu và người bạn đồng hành có chuyến Bangkok × Pattaya thật tuyệt vời! 🇹🇭✨</strong>
+  <strong>Chúc Hiếu và người bạn đồng hành có chuyến Bangkok × Pattaya thật tuyệt vời! <span class="th-flag th-flag-sm" role="img" aria-label="Cờ Thái Lan"></span> ✨</strong>
   <div style="margin-top:6px;font-size:12px;opacity:.55;">27–31 tháng 8 năm 2026 · SGN ↔ BKK · Vietjet Air · 2 girls, self-guided</div>
   <div style="margin-top:10px;font-size:10px;opacity:.4;">🎵 Nhạc nền: "Thatched Villagers" by Kevin MacLeod (incompetech.com) — Licensed under Creative Commons: By Attribution 3.0</div>
 </div>
