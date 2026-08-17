@@ -659,6 +659,14 @@ body{
   padding:9px 14px;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;
 }
 .pin-photo-btn.has-photo{border-style:solid;border-color:var(--d3);color:var(--d3);background:#F0FDF4;}
+.pin-photo-preview{display:flex;gap:8px;flex-wrap:wrap;}
+.pin-photo-thumb{position:relative;width:52px;height:52px;border-radius:8px;overflow:hidden;box-shadow:var(--sh0);flex-shrink:0;}
+.pin-photo-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.pin-photo-thumb .thumb-del{
+  position:absolute;top:1px;right:1px;width:16px;height:16px;border-radius:50%;border:none;
+  background:rgba(0,0,0,.6);color:#fff;font-size:9px;font-weight:900;cursor:pointer;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+}
 .pin-add{
   flex-shrink:0;background:var(--red);color:#fff;border:none;border-radius:10px;
   padding:9px 16px;font-weight:800;font-size:13px;cursor:pointer;transition:.15s;
@@ -679,6 +687,11 @@ body{
 .pin-nophoto{
   width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
   font-size:30px;background:linear-gradient(135deg,var(--gold-light),#fff);color:var(--gold);
+}
+.pin-photo-wrap{position:relative;}
+.pin-photo-count{
+  position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.65);color:#fff;
+  font-size:10px;font-weight:800;border-radius:12px;padding:2px 7px;
 }
 .pin-body{padding:9px 10px;position:relative;flex:1;}
 .pin-name{font-size:12px;font-weight:800;color:var(--dark);line-height:1.3;}
@@ -768,11 +781,38 @@ body{
 }
 .lightbox-photo{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--cream);}
 .lightbox-noPhoto{width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,var(--gold-light),#fff);}
+.lightbox-gallery{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;background:#000;}
+.lightbox-gallery img{width:100%;flex-shrink:0;scroll-snap-align:start;aspect-ratio:4/3;object-fit:cover;}
+.lightbox-gallery-count{
+  position:absolute;top:10px;left:10px;z-index:2;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;font-weight:700;border-radius:12px;padding:3px 9px;
+}
 .lightbox-body{padding:16px;}
 .lightbox-name{font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--dark);}
 .lightbox-meta{font-size:12px;color:var(--muted);margin-top:3px;}
 .lightbox-note{font-size:13px;color:#374151;margin-top:8px;line-height:1.5;}
-.lightbox-actions{margin-top:12px;display:flex;gap:8px;}
+.lightbox-actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+.lightbox-del{
+  background:#FFF1F2;color:#BE123C;border:1px solid #FECACA;border-radius:20px;
+  padding:5px 12px;font-size:11.5px;font-weight:700;cursor:pointer;
+}
+.lightbox-del:hover{background:#FEE2E2;}
+
+/* ═══ TOAST (thông báo nhanh, dùng cho "Hoàn tác" sau khi check-in) ═══ */
+.toast-wrap{position:fixed;left:50%;bottom:calc(80px + var(--safe-b));transform:translateX(-50%);z-index:600;pointer-events:none;}
+@media(min-width:700px){.toast-wrap{bottom:26px;}}
+.toast{
+  pointer-events:auto;display:flex;align-items:center;gap:10px;
+  background:#1C1410;color:#fff;border-radius:30px;padding:10px 10px 10px 16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);font-size:12.5px;font-weight:600;
+  opacity:0;transform:translateY(12px);transition:opacity .25s ease,transform .25s ease;
+  white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast-undo{
+  background:var(--gold);color:#3A2A08;border:none;border-radius:20px;
+  padding:5px 12px;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;
+}
 
 /* ═══ MOOD RATING (per day) ═══ */
 .mood-row{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
@@ -1899,10 +1939,11 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <input type="text" id="pinNote" class="pin-input" placeholder="Ghi chú nhanh (không bắt buộc)" maxlength="80">
     </div>
     <div class="pin-row">
-      <label class="pin-photo-btn" id="pinPhotoLabel" for="pinPhoto">📷 Thêm ảnh (không bắt buộc)</label>
+      <label class="pin-photo-btn" id="pinPhotoLabel" for="pinPhoto">📷 Thêm ảnh (bấm nhiều lần để thêm nhiều ảnh)</label>
       <input type="file" id="pinPhoto" accept="image/*" capture="environment" style="display:none;" onchange="onPinPhotoChange(event)">
       <button class="pin-add" onclick="addCheckin()">📍 Check-in nơi này</button>
     </div>
+    <div class="pin-row" id="pinPhotoPreview"></div>
   </div>
 
   <div class="pin-progress-row">
@@ -1939,10 +1980,16 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div class="lightbox-name" id="lightboxName"></div>
       <div class="lightbox-meta" id="lightboxMeta"></div>
       <div class="lightbox-note" id="lightboxNote"></div>
-      <div class="lightbox-actions"><a class="pin-maps" id="lightboxMaps" href="#" target="_blank">🗺️ Xem trên Google Maps</a></div>
+      <div class="lightbox-actions">
+        <a class="pin-maps" id="lightboxMaps" href="#" target="_blank">🗺️ Xem trên Google Maps</a>
+        <button class="lightbox-del" id="lightboxDelBtn" onclick="deleteFromLightbox()">🗑️ Xoá check-in này</button>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- TOAST (hiện sau khi check-in, cho phép hoàn tác nếu bấm nhầm) -->
+<div class="toast-wrap"><div class="toast" id="toast"><span id="toastMsg"></span><button class="toast-undo" id="toastUndoBtn">Hoàn tác</button></div></div>
 
 <!-- ════ FOOD ════ -->
 <section class="sec reveal" id="food">
@@ -2477,10 +2524,14 @@ const MAP_COORDS = {
   'Jomtien Beach': {zone:'pty', top:72, left:55}
 };
 let checkins = [];
-let pendingPhoto = null;
+let pendingPhotos = [];
 
 function loadCheckins(){
   try{ checkins = JSON.parse(localStorage.getItem(PIN_KEY)) || []; }catch(e){ checkins = []; }
+  // tương thích dữ liệu cũ chỉ có 1 ảnh (c.photo) → chuyển sang mảng c.photos
+  checkins.forEach(c=>{
+    if(!c.photos){ c.photos = c.photo ? [c.photo] : []; }
+  });
 }
 function saveCheckins(){
   try{ localStorage.setItem(PIN_KEY, JSON.stringify(checkins)); return true; }
@@ -2489,6 +2540,24 @@ function saveCheckins(){
 function onPinPlaceChange(){
   const sel = document.getElementById('pinPlace');
   document.getElementById('pinCustom').style.display = sel.value === '__custom__' ? 'block' : 'none';
+}
+function renderPendingPhotos(){
+  const wrap = document.getElementById('pinPhotoPreview');
+  wrap.innerHTML = pendingPhotos.map((src,i)=>
+    '<div class="pin-photo-thumb"><img src="'+src+'" alt=""><button type="button" class="thumb-del" onclick="removePendingPhoto('+i+')" aria-label="Xoá ảnh">✕</button></div>'
+  ).join('');
+  const lbl = document.getElementById('pinPhotoLabel');
+  if(pendingPhotos.length){
+    lbl.textContent = '✅ Đã chọn '+pendingPhotos.length+' ảnh — bấm để thêm nữa';
+    lbl.classList.add('has-photo');
+  }else{
+    lbl.textContent = '📷 Thêm ảnh (bấm nhiều lần để thêm nhiều ảnh)';
+    lbl.classList.remove('has-photo');
+  }
+}
+function removePendingPhoto(i){
+  pendingPhotos.splice(i,1);
+  renderPendingPhotos();
 }
 function onPinPhotoChange(e){
   const file = e.target.files[0];
@@ -2504,14 +2573,13 @@ function onPinPhotoChange(e){
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      pendingPhoto = canvas.toDataURL('image/jpeg', 0.72);
-      const lbl = document.getElementById('pinPhotoLabel');
-      lbl.textContent = '✅ Đã chọn ảnh';
-      lbl.classList.add('has-photo');
+      pendingPhotos.push(canvas.toDataURL('image/jpeg', 0.72));
+      renderPendingPhotos();
     };
     img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
+  e.target.value = ''; // reset để bấm lại được nút thêm ảnh tiếp theo
 }
 function addCheckin(){
   const sel = document.getElementById('pinPlace');
@@ -2521,21 +2589,20 @@ function addCheckin(){
     if(!place){ document.getElementById('pinCustom').focus(); return; }
   }
   const note = document.getElementById('pinNote').value.trim();
-  const entry = { id: Date.now(), place, note, photo: pendingPhoto, time: new Date().toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) };
+  const entry = { id: Date.now(), place, note, photos: pendingPhotos.slice(), time: new Date().toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) };
   checkins.unshift(entry);
   if(!saveCheckins()){ checkins.shift(); return; }
   document.getElementById('pinNote').value = '';
   document.getElementById('pinCustom').value = '';
-  pendingPhoto = null;
-  const lbl = document.getElementById('pinPhotoLabel');
-  lbl.textContent = '📷 Thêm ảnh (không bắt buộc)';
-  lbl.classList.remove('has-photo');
+  pendingPhotos = [];
+  renderPendingPhotos();
   document.getElementById('pinPhoto').value = '';
   renderCheckins();
   renderMap(place);
   const knownVisited = new Set(checkins.map(c=>c.place)).size;
   if(knownVisited === PIN_KNOWN_COUNT || checkins.length===5 || checkins.length===15) fireConfetti();
   renderWrapped();
+  showToast('✅ Đã check-in "'+place+'"!', function(){ delCheckin(entry.id); });
 }
 function delCheckin(id){
   checkins = checkins.filter(c=>c.id!==id);
@@ -2543,6 +2610,11 @@ function delCheckin(id){
   renderCheckins();
   renderMap();
   renderWrapped();
+}
+function deleteFromLightbox(){
+  if(!window.currentLightboxId) return;
+  delCheckin(window.currentLightboxId);
+  closeLightbox();
 }
 function mapsUrlFor(place){
   const q = PIN_MAPS.hasOwnProperty(place) ? (PIN_MAPS[place] || place+' Bangkok') : (place+' Bangkok Thailand');
@@ -2560,9 +2632,12 @@ function renderCheckins(){
     return;
   }
   grid.innerHTML = checkins.map(c=>{
-    const photoHtml = c.photo ? '<img class="pin-photo" src="'+c.photo+'" alt="'+escapeHtml(c.place)+'">' : '<div class="pin-nophoto">📍</div>';
+    const photos = c.photos || [];
+    const photoHtml = photos.length
+      ? '<div class="pin-photo-wrap"><img class="pin-photo" src="'+photos[0]+'" alt="'+escapeHtml(c.place)+'">'+(photos.length>1 ? '<span class="pin-photo-count">📷 +'+(photos.length-1)+'</span>' : '')+'</div>'
+      : '<div class="pin-nophoto">📍</div>';
     return '<div class="pin-card">'
-      + photoHtml
+      + '<div onclick="openLightbox(checkins.find(x=>x.id==='+c.id+'))" style="cursor:pointer;">'+photoHtml+'</div>'
       + '<div class="pin-body">'
       + '<div class="pin-name">'+escapeHtml(c.place)+'</div>'
       + '<div class="pin-meta">'+c.time+'</div>'
@@ -2589,8 +2664,9 @@ function renderMap(justCheckedPlace){
     if(!zoneEl) return;
     const visit = latestByPlace[place];
 
+    const visitPhoto = visit && visit.photos && visit.photos[0];
     const pin = document.createElement('div');
-    pin.className = 'map-pin ' + (visit ? 'visited' : 'ghost') + (visit && visit.photo ? ' has-photo' : '');
+    pin.className = 'map-pin ' + (visit ? 'visited' : 'ghost') + (visitPhoto ? ' has-photo' : '');
     pin.style.top = coord.top+'%';
     pin.style.left = coord.left+'%';
     pin.title = place;
@@ -2598,9 +2674,9 @@ function renderMap(justCheckedPlace){
 
     const mark = document.createElement('div');
     mark.className = 'map-pin-mark';
-    if(visit && visit.photo){
+    if(visitPhoto){
       const img = document.createElement('img');
-      img.src = visit.photo; img.alt = '';
+      img.src = visitPhoto; img.alt = '';
       mark.appendChild(img);
     }else{
       mark.textContent = visit ? '📍' : '·';
@@ -2628,12 +2704,28 @@ function renderMap(justCheckedPlace){
   });
 }
 function openLightbox(c){
+  if(!c) return;
   const backdrop = document.getElementById('lightboxBackdrop');
   const media = document.getElementById('lightboxMedia');
   media.innerHTML = '';
-  if(c.photo){
+  media.style.position = 'relative';
+  const photos = c.photos || [];
+  if(photos.length > 1){
+    const gallery = document.createElement('div');
+    gallery.className = 'lightbox-gallery';
+    photos.forEach(src=>{
+      const img = document.createElement('img');
+      img.src = src; img.alt = c.place;
+      gallery.appendChild(img);
+    });
+    media.appendChild(gallery);
+    const count = document.createElement('span');
+    count.className = 'lightbox-gallery-count';
+    count.textContent = '📷 '+photos.length+' ảnh — vuốt để xem';
+    media.appendChild(count);
+  }else if(photos.length === 1){
     const img = document.createElement('img');
-    img.className = 'lightbox-photo'; img.src = c.photo; img.alt = c.place;
+    img.className = 'lightbox-photo'; img.src = photos[0]; img.alt = c.place;
     media.appendChild(img);
   }else{
     const ph = document.createElement('div');
@@ -2644,13 +2736,31 @@ function openLightbox(c){
   document.getElementById('lightboxMeta').textContent = c.time || '';
   document.getElementById('lightboxNote').textContent = c.note || '';
   document.getElementById('lightboxMaps').href = mapsUrlFor(c.place);
+  window.currentLightboxId = c.id;
   backdrop.classList.add('show');
 }
 function closeLightbox(){
   const backdrop = document.getElementById('lightboxBackdrop');
   if(backdrop) backdrop.classList.remove('show');
+  window.currentLightboxId = null;
 }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLightbox(); });
+
+/* ── TOAST (thông báo nhanh + hoàn tác) ── */
+let toastTimer = null;
+function showToast(msg, onUndo){
+  const wrap = document.getElementById('toast');
+  const undoBtn = document.getElementById('toastUndoBtn');
+  document.getElementById('toastMsg').textContent = msg;
+  undoBtn.onclick = function(){ onUndo(); hideToast(); };
+  wrap.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, 6000);
+}
+function hideToast(){
+  const wrap = document.getElementById('toast');
+  if(wrap) wrap.classList.remove('show');
+}
 
 try{ loadCheckins(); renderCheckins(); renderMap(); }catch(e){ console.error(e); }
 
@@ -2661,7 +2771,7 @@ function renderWrapped(){
   const totalSpent = (typeof expenses !== 'undefined' ? expenses : []).reduce((s,e)=>s+toTHB(e.amt, e.currency),0);
   spentEl.textContent = fmtThb(totalSpent);
   document.getElementById('wrapPlaces').textContent = checkins.length;
-  document.getElementById('wrapPhotos').textContent = checkins.filter(c=>c.photo).length;
+  document.getElementById('wrapPhotos').textContent = checkins.reduce((s,c)=>s+((c.photos||[]).length),0);
   const prepPct = (typeof totalItems !== 'undefined' && totalItems) ? Math.round(document.querySelectorAll('.cb.on').length/totalItems*100) : 0;
   document.getElementById('wrapPrep').textContent = prepPct+'%';
 
@@ -2670,8 +2780,8 @@ function renderWrapped(){
     ? moodDays.map(d=>'<span class="wrap-mood-chip">Ngày '+(parseInt(d,10)+1)+' '+moods[d]+'</span>').join('')
     : '<span class="wrap-mood-chip" style="opacity:.55;">Chưa có ngày nào được đánh giá tâm trạng</span>';
 
-  const photoStrip = checkins.filter(c=>c.photo).slice(0,12)
-    .map(c=>'<img src="'+c.photo+'" alt="'+escapeHtml(c.place)+'" title="'+escapeHtml(c.place)+'">').join('');
+  const photoStrip = checkins.filter(c=>c.photos && c.photos.length).slice(0,12)
+    .map(c=>'<img src="'+c.photos[0]+'" alt="'+escapeHtml(c.place)+'" title="'+escapeHtml(c.place)+'">').join('');
   document.getElementById('wrapPhotoStrip').innerHTML = photoStrip;
 }
 try{ renderWrapped(); }catch(e){ console.error(e); }
