@@ -318,6 +318,11 @@ body{
   font-size:12px;background:#FFFBEB;border-left:3px solid #F59E0B;
   padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px;color:#78350F;
 }
+.tl-transit{
+  font-size:12px;background:#EFF6FF;border-left:3px solid #3B82F6;
+  padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px;color:#1E3A8A;line-height:1.55;
+}
+.tl-transit strong{color:#1D4ED8;}
 .tl-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
 .btn-map,.btn-photo{
   display:inline-flex;align-items:center;gap:4px;
@@ -903,6 +908,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     <span class="pill">🏖️ Pattaya</span>
     <span class="pill">🛕 Grand Palace</span>
     <span class="pill">💅 Spa & Massage</span>
+    <span class="pill" id="syncStatus" title="Trạng thái đồng bộ sổ chi tiêu/ghi chú giữa các thiết bị">☁️ Đang đồng bộ…</span>
   </div>
   <div class="hero-div"></div>
   <div class="countdown" id="countdown">
@@ -1001,29 +1007,20 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
 <!-- ════ HOTEL ════ -->
 <section class="sec reveal" id="hotel">
-  <div class="sec-title">🏨 Khu Vực Nên Ở</div>
-  <div class="alert alert-i"><span class="alert-icon">💡</span><div>Chưa chốt khách sạn? Ưu tiên khách sạn <strong>bám sát tuyến BTS Skytrain</strong> — đi lại cả chuyến gần như chỉ cần Grab lúc sáng sớm/khuya, còn lại đi tàu điện mát mẻ, tránh kẹt xe.</div></div>
+  <div class="sec-title">🏨 Khách Sạn Đã Đặt</div>
   <div class="hotel-grid">
     <div class="hcard" style="border-color:var(--d1)">
-      <div class="hcard-name">Khu Siam / Ratchathewi</div>
-      <div class="hcard-area">Gần BTS Siam · Chit Lom</div>
-      <div class="hcard-why">Trung tâm mua sắm (Siam Paragon, Central World), đi thẳng ra Chatuchak và Grand Palace đều tiện. Lựa chọn tốt nhất cho lịch trình này.</div>
-      <div class="hcard-tags"><span class="htag">Mua sắm</span><span class="htag">1 line BTS thẳng</span></div>
-    </div>
-    <div class="hcard" style="border-color:var(--d2)">
-      <div class="hcard-name">Khu Sukhumvit (Asok–Thong Lo)</div>
-      <div class="hcard-area">Gần BTS Asok · MRT Sukhumvit</div>
-      <div class="hcard-why">Nhiều khách sạn 3★ giá tốt, quán ăn/massage đêm dày đặc, gần Terminal 21. Hơi xa Grand Palace hơn (đi Grab/thuyền thêm).</div>
-      <div class="hcard-tags"><span class="htag">Ăn đêm</span><span class="htag">Giá tốt</span></div>
-    </div>
-    <div class="hcard" style="border-color:var(--d4)">
-      <div class="hcard-name">Khu Pratunam</div>
-      <div class="hcard-area">Gần Platinum Mall</div>
-      <div class="hcard-why">Rẻ, sát chợ sỉ quần áo và Superrich đổi tiền — hợp nếu ưu tiên mua sắm hơn di chuyển bằng BTS (khu này không có ga BTS ngay cạnh).</div>
-      <div class="hcard-tags"><span class="htag">Rẻ</span><span class="htag">Sát Platinum</span></div>
+      <div class="hcard-name">🏨 Rose Apple Hotel (โรงแรมโรสแอปเปิ้ล)</div>
+      <div class="hcard-area">29-29/1 Soi Loet Punya, Phaya Thai Road, Ratchathewi, Pratunam, Bangkok</div>
+      <div class="hcard-why">Ở cả <strong>5 ngày 4 đêm</strong>. Nằm trong hẻm Soi Loet Punya, sát khu chợ Pratunam/Palladium – đi bộ ra chợ đêm và ăn uống rất tiện, không cần Grab buổi tối.</div>
+      <div class="tl-transit">🚇 <span><strong>Ga tàu gần nhất:</strong> BTS <strong>Ratchathewi</strong> (Sukhumvit Line) – đi bộ ~500–600m (7–8 phút). Ga <strong>Phaya Thai</strong> (BTS + Airport Rail Link) xa hơn một chút, ~900m–1km (12 phút đi bộ hoặc Grab ~50฿), tiện khi cần bắt ARL ra sân bay.</span></div>
+      <div class="tl-links" style="margin-top:10px;">
+        <a class="btn-map" href="https://www.google.com/maps/search/Rose+Apple+Hotel+Bangkok+Soi+Loet+Punya" target="_blank">🗺️ Rose Apple Hotel</a>
+        <a class="btn-map" href="https://www.google.com/maps/search/BTS+Ratchathewi+Station+Bangkok" target="_blank">🗺️ BTS Ratchathewi</a>
+      </div>
     </div>
   </div>
-  <div class="alert alert-w" style="margin-top:12px;"><span class="alert-icon">⚠️</span><div><strong>Đặt phòng ngay từ bây giờ</strong> — chỉ còn khoảng 2 tuần trước ngày bay, khách sạn khu trung tâm cuối tháng 8 có thể hết phòng đẹp hoặc tăng giá sát ngày. Kiểm tra chính sách hủy miễn phí khi đặt.</div></div>
+  <div class="alert alert-i" style="margin-top:12px;"><span class="alert-icon">💡</span><div>Từ khách sạn ra <strong>BTS Ratchathewi</strong> là cách di chuyển chính cả chuyến: đi 1 trạm tới Siam/Chit Lom để đổi tuyến BTS/MRT đi khắp thành phố. Buổi sáng sớm hoặc khuya muộn (BTS đóng cửa ~24h) mới cần gọi Grab.</div></div>
 </section>
 
 <!-- ════ DAYS ════ -->
@@ -1118,6 +1115,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🛬 Đến Suvarnabhumi – Làm thủ tục</div>
           <div class="tl-desc">Nhập cảnh, lấy SIM Thái (AIS/DTAC ~300–500 THB/7 ngày), đổi tiền vừa đủ đi lại.</div>
           <div class="tl-tip">💡 Đổi ít ở sân bay – tỷ giá thấp. Đổi phần còn lại tại <strong>Superrich</strong> trong phố (tốt hơn 5–8%). ~1 THB ≈ 850 VND.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Ga <strong>Suvarnabhumi ARL</strong> (Airport Rail Link) nằm ngay tầng B – đây cũng là điểm xuất phát để về trung tâm.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Suvarnabhumi+Airport+Bangkok" target="_blank">🗺️ Sân bay BKK</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Suvarnabhumi+Airport+Bangkok&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1129,6 +1127,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🚆 Di chuyển vào trung tâm – Check in</div>
           <div class="tl-desc"><strong>ARL:</strong> Sân bay → Phaya Thai (30 phút, ~35–45 THB) rồi BTS. Hoặc <strong>Grab</strong> (~350–500 THB).</div>
           <div class="tl-tip">🚨 TUYỆT ĐỐI không đi taxi không đồng hồ tại sân bay!</div>
+          <div class="tl-transit">🚇 <span><strong>Về khách sạn:</strong> ARL xuống ga <strong>Phaya Thai</strong> → đổi <strong>BTS Sukhumvit Line</strong> 1 trạm tới <strong>Ratchathewi</strong> (~17฿) → đi bộ ~600m (7–8 phút) tới Rose Apple Hotel. Tổng ~50–65฿/người, ~45–50 phút.</span></div>
         </div>
         <div class="tli">
           <div class="tl-dot" style="color:var(--d1)"></div>
@@ -1136,6 +1135,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🛍️ Siam Paragon – Apple Store Bangkok!</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Apple Store lớn và hiện đại nhất Đông Nam Á, cộng thêm thuỷ cung SEA LIFE ngay dưới tầng hầm.</span></div>
           <div class="tl-desc">BTS đến ga Siam. Tầng G có <strong>Apple Store Bangkok</strong> rất lớn. Tầng B1 có thủy cung SEA LIFE.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> BTS <strong>Siam</strong> (nối trực tiếp qua cửa mall) – từ khách sạn: BTS Ratchathewi → 1 trạm tới Siam (~17฿, 3 phút).</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Siam+Paragon+Bangkok" target="_blank">🗺️ Siam Paragon</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Siam+Paragon+Bangkok+Apple+Store&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1149,6 +1149,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Trung tâm thương mại lớn thứ 3 thế giới, quảng trường ngoài trời sôi động và nhộn nhịp bậc nhất Bangkok.</span></div>
           <div class="tl-desc">① Mua thẻ nạp (~300–500 THB) → ② Quẹt tại gian hàng → ③ Hoàn tiền dư khi xong. Sạch, điều hòa mát!</div>
           <div class="tl-tip">🗣️ Nhớ nói <strong>"Mai pet"</strong> khi gọi mọi món!</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> BTS <strong>Chit Lom</strong> (cửa ra số 2, skywalk thẳng vào mall) hoặc đi bộ ~5–7 phút từ Siam Paragon qua skywalk trên cao, không cần đi thêm 1 chặng BTS.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/CentralWorld+Bangkok" target="_blank">🗺️ Central World</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Central+World+Bangkok+food+court&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1161,6 +1162,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🌙 Palladium Night Market – Chợ Đêm Local</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Chợ đêm "local" đúng nghĩa — giá mềm hơn, ít khách du lịch hơn hẳn Asiatique, nơi dân Bangkok thật sự hay mua sắm.</span></div>
           <div class="tl-desc">Ít khách du lịch, đồ ăn rẻ ngon, quần áo phụ kiện hợp lý. Local hơn Asiatique nhiều.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Không có BTS/MRT sát ngay – gần nhất là BTS <strong>Chit Lom</strong> (~900m). Tiện nhất là <strong>đi bộ thẳng từ Rose Apple Hotel</strong> (~700m, ~9 phút) vì cùng khu Pratunam.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://maps.app.goo.gl/8AiEEVwiEsiqzLK17" target="_blank">🗺️ Palladium</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Palladium+Night+Market+Bangkok&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1173,6 +1175,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🌃 Pratunam → Asiatique</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Vòng quay Ferris khổng lồ sát bờ sông Chao Phraya, đẹp nhất khi lên đèn ban đêm — điểm sống ảo kinh điển của Bangkok.</span></div>
           <div class="tl-desc">Grab đến Asiatique (~100 THB) – đi dạo ven sông và chụp ảnh đêm cực đẹp.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> BTS <strong>Saphan Taksin</strong> (cửa 2) → đi bộ ra bến Sathorn cạnh đó → tàu shuttle <strong>miễn phí</strong> của Asiatique (chạy 16:00–23:00, mỗi 10–20 phút). Hoặc Grab thẳng từ Pratunam ~100฿.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Asiatique+Riverfront+Bangkok" target="_blank">🗺️ Asiatique</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Asiatique+Riverfront+Bangkok+night&tbm=isch" target="_blank">📷 Ảnh đêm</a>
@@ -1261,6 +1264,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Nơi đặt tượng Phật Ngọc (Phật Ngọc Bích) linh thiêng nhất Thái Lan, quần thể mái vàng chóp nhọn lộng lẫy nhất cả nước.</span></div>
           <div class="tl-desc">Vé: <strong>500 THB/người</strong>. Có tượng Phật Ngọc. Cần 2–3 tiếng đi hết.</div>
           <div class="tl-tip">💡 Đến trước 9h tránh đông & nắng. Thuê audio guide ~200 THB.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> MRT <strong>Sanam Chai</strong> (đường màu xanh), ra cửa 1, đi bộ ~10 phút. Không có tuyến tàu thẳng từ khách sạn nên đơn giản nhất là <strong>Grab</strong> (~150–200฿, 20–25 phút) hoặc taxi.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Grand+Palace+Bangkok" target="_blank">🗺️ Grand Palace</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Grand+Palace+Bangkok&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1273,6 +1277,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">⛵ Phà qua sông → Wat Arun</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Tháp trung tâm cao 82m khảm gốm sứ Trung Hoa tinh xảo — đẹp nhất lúc hoàng hôn, nhìn từ bờ sông đối diện.</span></div>
           <div class="tl-desc">Đi bộ đến Tha Tian Pier, phà 6 THB (3 phút). Vé vào: <strong>100 THB</strong>. Tháp sứ mosaic ấn tượng.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Bên này sông không có ga tàu – đi <strong>phà chéo sông</strong> từ bến Tha Tien (cạnh Grand Palace) sang, 6฿/người, 3 phút, chạy liên tục.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Wat+Arun+Bangkok" target="_blank">🗺️ Wat Arun</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Wat+Arun+Bangkok&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1286,6 +1291,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Sook Siam là "chợ nổi trong nhà" tái hiện văn hoá 77 tỉnh thành Thái Lan, tối có show nhạc nước trước toà nhà.</span></div>
           <div class="tl-desc">Phà cam miễn phí của Icon Siam. Tầng B1 có <strong>Sook Siam</strong> – chợ trong nhà tái hiện 77 tỉnh Thái, ăn uống + check-in cực đẹp.</div>
           <div class="tl-tip">🗣️ Luôn nói "Mai pet" khi gọi món!</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> ICONSIAM có ga riêng <strong>Gold Line "Charoen Nakhon"</strong> (nối BTS Krung Thon Buri). Hoặc đi <strong>phà miễn phí</strong> từ bến Sathorn cạnh BTS Saphan Taksin (chạy 6:00–23:00, mỗi 10–20 phút).</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/ICONSIAM+Bangkok" target="_blank">🗺️ Icon Siam</a>
             <a class="btn-photo" href="https://www.google.com/search?q=ICONSIAM+Sook+Siam&tbm=isch" target="_blank">📷 Sook Siam</a>
@@ -1298,6 +1304,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🏮 Chinatown (Yaowarat) – Phố Tàu Bangkok</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Phố đèn lồng đỏ dài và nhộn nhịp nhất Bangkok về đêm — thiên đường hải sản, vịt quay, chè đường phố.</span></div>
           <div class="tl-desc">Bến Ratchawong → đi bộ vào Yaowarat. Đèn lồng đỏ đẹp. Ăn vặt hải sản, chè, bánh tráng miệng Thái-Hoa.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> MRT <strong>Wat Mangkon</strong> (đường màu xanh) – ra cửa 1, ngay trên phố Yaowarat. Từ Icon Siam có thể đi phà Express Boat tới bến Ratchawong rồi đi bộ vào.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Yaowarat+Road+Chinatown+Bangkok" target="_blank">🗺️ Chinatown</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Yaowarat+Chinatown+Bangkok+night&tbm=isch" target="_blank">📷 Ảnh đêm</a>
@@ -1311,6 +1318,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Phố Tây (backpacker street) nổi tiếng nhất Đông Nam Á, không khí lễ hội, nhạc sống xuyên đêm không ngừng.</span></div>
           <div class="tl-desc">Phố đêm náo nhiệt nhất Bangkok. Pad Thai ~80–100 THB. Mua đồ lưu niệm, massage, nhạc sống.</div>
           <div class="tl-tip">⚠️ Đông người: giữ túi trước ngực, không để điện thoại lộ.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Không có BTS/MRT gần – ga gần nhất là MRT <strong>Sam Yot</strong> vẫn cách ~1,3km. Nên đi bộ từ Chinatown (~20 phút) hoặc Grab ~80–100฿.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Khao+San+Road+Bangkok" target="_blank">🗺️ Khao San Road</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Khao+San+Road+Bangkok+night&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1365,6 +1373,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-time">07:00 – 07:30</div>
           <div class="tl-title">🚌 Khởi hành Victory Monument → Pattaya</div>
           <div class="tl-desc">BTS đến ga Victory Monument. Chờ ~15–20 phút là có xe. Hành trình ~2 tiếng cao tốc.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> BTS <strong>Victory Monument</strong> – từ khách sạn: Ratchathewi → 1 trạm (~17฿, 3 phút). Ra cửa số 2, đi bộ ~5 phút tới bến minivan ở Soi Rangnam.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Victory+Monument+Bangkok" target="_blank">🗺️ Bến Victory Monument</a>
           </div>
@@ -1376,6 +1385,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Công trình kiến trúc gỗ tôn giáo được cho là lớn nhất thế giới — toàn bộ không dùng một chiếc đinh nào.</span></div>
           <div class="tl-desc">Đền gỗ cao 105m không dùng đinh, điêu khắc tỉ mỉ từng cm. Vé: <strong>500 THB/người</strong>. Show múa miễn phí.</div>
           <div class="tl-tip">👗 Mang khăn quấn che gối. Giày đế bằng vì sàn gỗ trơn.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Pattaya không có BTS/MRT – từ bến minivan bắt <strong>Grab hoặc songthaew (xe baht)</strong> ~80–150฿, 15–20 phút.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Sanctuary+of+Truth+Pattaya" target="_blank">🗺️ Sanctuary of Truth</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Sanctuary+of+Truth+Pattaya&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1396,6 +1406,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Tượng Phật ngồi dát vàng lớn nhất Pattaya trên đồi Pratamnak, đứng đây ngắm được toàn cảnh vịnh biển.</span></div>
           <div class="tl-desc">Tượng Phật ngồi khổng lồ dát vàng trên đồi Pratamnak, view toàn cảnh vịnh Pattaya cực đẹp. <strong>Miễn phí</strong> (có thể cúng dường tuỳ tâm).</div>
           <div class="tl-tip">👗 Thoải mái hơn Grand Palace nhưng vẫn nên che vai/đầu gối khi vào khu chính điện cho lịch sự.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Không có tàu điện ở Pattaya – Grab hoặc songthaew từ Sanctuary of Truth ~100–150฿, 15–20 phút.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Wat+Phra+Yai+Big+Buddha+Hill+Pattaya" target="_blank">🗺️ Wat Phra Yai</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Wat+Phra+Yai+Big+Buddha+Hill+Pattaya&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1408,6 +1419,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🏖️ Jomtien Beach – Tắm Biển & Thư Giãn</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Bãi biển dài, nước sạch hơn hẳn Pattaya Beach chính, ít quán bar ồn ào — hợp để thư giãn thật sự.</span></div>
           <div class="tl-desc">Sạch hơn Pattaya Beach chính (Grab ~10' từ Wat Phra Yai). Bơi, chụp ảnh. Chú ý cờ cảnh báo an toàn. Thử jetski, para-sailing.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Không có tàu điện – Grab hoặc songthaew từ Wat Phra Yai ~50–80฿, ~10 phút.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Jomtien+Beach+Pattaya" target="_blank">🗺️ Jomtien Beach</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Jomtien+Beach+Pattaya&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1481,6 +1493,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Chợ cuối tuần được xem là lớn nhất châu Á với 15.000+ gian hàng trải rộng 35 hecta — chỉ mở Thứ 7 & Chủ Nhật.</span></div>
           <div class="tl-desc">15,000+ gian hàng trên 35 hecta. MRT/BTS đến Mo Chit. <strong>Chỉ mở Thứ 7 & Chủ Nhật.</strong></div>
           <div class="tl-tip">🗺️ Tải app JJ Map. Mang tiền mặt – mặc cả được 10–30%.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> BTS <strong>Mo Chit</strong> hoặc MRT <strong>Chatuchak Park</strong>/<strong>Kamphaeng Phet</strong> (ra ngay cổng chợ). Từ khách sạn: Ratchathewi → Mo Chit ~6 trạm (~28฿, 15 phút).</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Chatuchak+Weekend+Market+Bangkok" target="_blank">🗺️ Chatuchak</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Chatuchak+Weekend+Market+Bangkok&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1493,6 +1506,10 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🍱 Ăn Trưa tại Or Tor Kor Market</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Từng được CNN vinh danh là "khu chợ thực phẩm tốt nhất thế giới" — trái cây và đồ ăn chất lượng cao, sạch sẽ.</span></div>
           <div class="tl-desc">Ngay cạnh Chatuchak – chợ thực phẩm cao cấp. Hoa quả nhiệt đới, chè Thái. Nghỉ chân sau sáng chợ.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> MRT <strong>Kamphaeng Phet</strong> – ra cửa 3 là tới, đi bộ ~2 phút từ Chatuchak.</span></div>
+          <div class="tl-links">
+            <a class="btn-map" href="https://www.google.com/maps/search/Or+Tor+Kor+Market+Bangkok" target="_blank">🗺️ Or Tor Kor Market</a>
+          </div>
         </div>
         <div class="tli">
           <div class="tl-dot" style="color:#7C3AED"></div>
@@ -1500,6 +1517,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🎨 MOCA Bangkok – Bảo Tàng Nghệ Thuật Đương Đại</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Bộ sưu tập nghệ thuật đương đại Thái Lan quy mô lớn nhất nước, kiến trúc toà nhà 5 tầng ấn tượng.</span></div>
           <div class="tl-desc">5 tầng tác phẩm nghệ sĩ Thái. Vé: ~200–280 THB. Nhiều góc check-in đẹp.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Không có BTS/MRT gần – cách Chatuchak ~7km. Đi <strong>Grab</strong> (~20–25 phút, 150–200฿) hoặc taxi.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://maps.app.goo.gl/sEkXZFcmJ3JoY5xV8" target="_blank">🗺️ MOCA Bangkok</a>
             <a class="btn-photo" href="https://www.google.com/search?q=MOCA+Bangkok+Museum&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1512,6 +1530,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🏬 Terminal 21 Asok – Mall Chủ Đề Sân Bay Quốc Tế</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Mỗi tầng mô phỏng một thành phố khác nhau trên thế giới (Tokyo, London, Paris, Istanbul...) — chụp ảnh cực đã.</span></div>
           <div class="tl-desc">Mỗi tầng là một thành phố: Tokyo, London, Paris... BTS Asok / MRT Sukhumvit.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> BTS <strong>Asok</strong> / MRT <strong>Sukhumvit</strong> (nối trực tiếp, ra là tới mall). Từ MOCA: Grab ~150–200฿ (25–30 phút) hoặc taxi ra ga BTS gần nhất rồi đi tàu.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Terminal+21+Asok+Bangkok" target="_blank">🗺️ Terminal 21</a>
             <a class="btn-photo" href="https://www.google.com/search?q=Terminal+21+Asok+Bangkok&tbm=isch" target="_blank">📷 Ảnh</a>
@@ -1579,6 +1598,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🛍️ Platinum Fashion Mall + Pratunam</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Thiên đường bán sỉ quần áo giá chỉ từ 100 THB/món — nhiều shop online Việt Nam lấy hàng ngay tại đây.</span></div>
           <div class="tl-desc">Platinum: quần áo 100–300 THB. Pratunam ngay cạnh – chợ ngoài trời rẻ hơn. Thời điểm cuối mua quà!</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> Không có BTS/MRT sát ngay – gần nhất là BTS <strong>Chit Lom</strong> (~1km, 12–15 phút đi bộ). Từ Rose Apple Hotel đi bộ thẳng ~800m (10 phút) là tới.</span></div>
           <div class="tl-links">
             <a class="btn-map" href="https://www.google.com/maps/search/Platinum+Fashion+Mall+Bangkok" target="_blank">🗺️ Platinum Mall</a>
             <a class="btn-map" href="https://www.google.com/maps/search/Pratunam+Market+Bangkok" target="_blank">🗺️ Pratunam</a>
@@ -1597,8 +1617,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🧾 King Power – Hoàn Thuế VAT 7%</div>
           <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Trung tâm miễn thuế lớn nhất Thái Lan — làm thủ tục hoàn VAT ngay tại đây, đỡ mất thời gian ở sân bay.</span></div>
           <div class="tl-desc">Tổng mua hàng >2,000 THB tại cửa hàng có "VAT Refund" → hoàn 7% tại King Power hoặc sân bay.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> King Power Rangnam gần BTS <strong>Victory Monument</strong> (~700m, 9 phút đi bộ) hoặc <strong>Phaya Thai</strong> (~900m). Từ Platinum: Grab ~15–20 phút.</span></div>
           <div class="tl-links">
-            <a class="btn-map" href="https://www.google.com/maps/search/King+Power+Bangkok" target="_blank">🗺️ King Power</a>
+            <a class="btn-map" href="https://www.google.com/maps/search/King+Power+Rangnam+Bangkok" target="_blank">🗺️ King Power</a>
           </div>
         </div>
         <div class="tli">
@@ -1821,7 +1842,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <!-- ════ EXPENSE TRACKER (thực chi, ghi trong & sau chuyến đi) ════ -->
 <section class="sec reveal" id="expense">
   <div class="sec-title">🧾 Sổ Chi Tiêu Thực Tế</div>
-  <div class="alert alert-i"><span class="alert-icon">📝</span><div><strong>Đi đến đâu ghi lại đến đó.</strong> Mọi khoản chi tự lưu ngay trên máy (không cần mạng, không mất khi tắt trình duyệt). Cuối chuyến quay lại đây — tổng kết quả và so với dự trù ở trên chỉ trong 1 giây.</div></div>
+  <div class="alert alert-i"><span class="alert-icon">📝</span><div><strong>Đi đến đâu ghi lại đến đó.</strong> Mọi khoản chi tự lưu ngay, không mất khi tắt trình duyệt — và <strong>dùng chung cho cả 2 người</strong>: ai nhập trên điện thoại nào, người kia mở trang lên (hoặc quay lại tab) cũng thấy khoản chi mới nhất. Cần có mạng để đồng bộ.</div></div>
 
   <div class="exp-form">
     <div class="exp-row">
@@ -2232,6 +2253,18 @@ function loadChecklist(){
 function saveChecklist(){
   const state = allCbs.map(el=>el.classList.contains('on'));
   try{ localStorage.setItem(CB_KEY, JSON.stringify(state)); }catch(e){}
+  queueCloudPush('checklist');
+}
+function applyChecklistBool(state){
+  allCbs.forEach((el,i)=>{
+    const on = !!state[i];
+    el.classList.toggle('on', on);
+    el.textContent = on ? '✓' : '';
+    const lbl = el.nextElementSibling;
+    if(lbl) lbl.classList.toggle('done', on);
+  });
+  try{ localStorage.setItem(CB_KEY, JSON.stringify(state)); }catch(e){}
+  updateProgress();
 }
 function updateProgress(){
   const done = document.querySelectorAll('.cb.on').length;
@@ -2284,6 +2317,7 @@ function loadExpenses(){
 }
 function saveExpenses(){
   try{ localStorage.setItem(EXP_KEY, JSON.stringify(expenses)); }catch(e){}
+  queueCloudPush('expenses');
 }
 function fmtThb(n){ return Math.round(n).toLocaleString('vi-VN')+' ฿'; }
 function fmtVnd(n){ return Math.round(n*THB_TO_VND).toLocaleString('vi-VN')+' VND'; }
@@ -2430,30 +2464,41 @@ try{ loadExpenses(); renderExpenses(); }catch(e){ console.error(e); }
 
 /* ── DAY NOTES (per-day journal, auto-saved) ── */
 const NOTE_KEY = 'bkk2026_notes';
-try{ (function(){
-  let saved = {};
-  try{ saved = JSON.parse(localStorage.getItem(NOTE_KEY)) || {}; }catch(e){ saved = {}; }
-  let saveTimer = null;
+let dayNotes = {};
+function loadDayNotes(){
+  try{ dayNotes = JSON.parse(localStorage.getItem(NOTE_KEY)) || {}; }catch(e){ dayNotes = {}; }
+}
+function saveDayNotes(){
+  try{ localStorage.setItem(NOTE_KEY, JSON.stringify(dayNotes)); }catch(e){}
+}
+function renderDayNotes(){
   document.querySelectorAll('.day-note').forEach(ta=>{
     const day = ta.dataset.day;
-    if(saved[day]) ta.value = saved[day];
+    if(dayNotes[day]!==undefined && document.activeElement!==ta) ta.value = dayNotes[day];
+  });
+}
+let noteSaveTimer = null;
+try{
+  document.querySelectorAll('.day-note').forEach(ta=>{
     ta.addEventListener('input', ()=>{
-      saved[day] = ta.value;
+      const day = ta.dataset.day;
+      dayNotes[day] = ta.value;
       const badge = ta.parentElement.querySelector('.day-note-saved');
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(()=>{
-        try{ localStorage.setItem(NOTE_KEY, JSON.stringify(saved)); }catch(e){}
+      clearTimeout(noteSaveTimer);
+      noteSaveTimer = setTimeout(()=>{
+        saveDayNotes();
         if(badge){ badge.classList.add('show'); setTimeout(()=>badge.classList.remove('show'), 1500); }
+        queueCloudPush('notes');
       }, 500);
     });
   });
-})(); }catch(e){ console.error(e); }
+}catch(e){ console.error(e); }
+try{ loadDayNotes(); renderDayNotes(); }catch(e){ console.error(e); }
 
 /* ── MOOD RATING (per-day, reflected on day tabs) ── */
 const MOOD_KEY = 'bkk2026_moods';
 let moods = {};
-function loadMoods(){
-  try{ moods = JSON.parse(localStorage.getItem(MOOD_KEY)) || {}; }catch(e){ moods = {}; }
+function applyMoods(){
   Object.keys(moods).forEach(day=>{
     const row = document.querySelector('.mood-row[data-mood-day="'+day+'"]');
     if(row){
@@ -2463,6 +2508,10 @@ function loadMoods(){
     if(tabMood) tabMood.textContent = moods[day];
   });
 }
+function loadMoods(){
+  try{ moods = JSON.parse(localStorage.getItem(MOOD_KEY)) || {}; }catch(e){ moods = {}; }
+  applyMoods();
+}
 function setMood(day, btn){
   moods[day] = btn.dataset.mood;
   try{ localStorage.setItem(MOOD_KEY, JSON.stringify(moods)); }catch(e){}
@@ -2470,6 +2519,7 @@ function setMood(day, btn){
   const tabMood = document.getElementById('tabMood'+day);
   if(tabMood) tabMood.textContent = btn.dataset.mood;
   if(typeof renderWrapped === 'function') renderWrapped();
+  queueCloudPush('moods');
 }
 try{ loadMoods(); }catch(e){ console.error(e); }
 
@@ -2534,6 +2584,7 @@ function loadCheckins(){
   });
 }
 function saveCheckins(){
+  queueCloudPush('checkins');
   try{ localStorage.setItem(PIN_KEY, JSON.stringify(checkins)); return true; }
   catch(e){ alert('Bộ nhớ trình duyệt đã đầy (quá nhiều ảnh). Hãy xoá bớt vài check-in cũ rồi thử lại.'); return false; }
 }
@@ -2763,6 +2814,114 @@ function hideToast(){
 }
 
 try{ loadCheckins(); renderCheckins(); renderMap(); }catch(e){ console.error(e); }
+
+/* ── CLOUD SYNC (dùng chung giữa các thiết bị của Hiếu & Ly qua kvdb.io) ── */
+const SYNC_BASE = 'https://kvdb.io/Lm2zxqZJmxdepLAB1paeoK/';
+const SYNC_KEYS = { expenses:'trip_expenses', checkins:'trip_checkins', moods:'trip_moods', checklist:'trip_checklist', notes:'trip_notes' };
+const syncPushTimers = {};
+let syncBadgeEl = null;
+
+function setSyncStatus(text){
+  if(!syncBadgeEl) syncBadgeEl = document.getElementById('syncStatus');
+  if(syncBadgeEl) syncBadgeEl.textContent = text;
+}
+
+async function cloudGet(name){
+  try{
+    const res = await fetch(SYNC_BASE+SYNC_KEYS[name], {cache:'no-store'});
+    if(!res.ok) return null;
+    return await res.json();
+  }catch(e){ return null; }
+}
+async function cloudPut(name, value){
+  try{ await fetch(SYNC_BASE+SYNC_KEYS[name], {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(value)}); }
+  catch(e){}
+}
+
+function mergeById(localArr, remoteArr){
+  const map = new Map();
+  (remoteArr||[]).forEach(x=>{ if(x && x.id!=null) map.set(x.id, x); });
+  (localArr||[]).forEach(x=>{ if(x && x.id!=null) map.set(x.id, x); });
+  return Array.from(map.values()).sort((a,b)=>b.id-a.id);
+}
+function mergeBoolArr(localArr, remoteArr){
+  const len = Math.max((localArr||[]).length, (remoteArr||[]).length, totalItems);
+  const out = [];
+  for(let i=0;i<len;i++) out.push(!!(localArr&&localArr[i]) || !!(remoteArr&&remoteArr[i]));
+  return out;
+}
+function mergeTextMap(localObj, remoteObj){
+  const out = Object.assign({}, remoteObj||{});
+  Object.keys(localObj||{}).forEach(k=>{
+    const v = localObj[k];
+    if(v!==undefined && v!==null && String(v).trim()!=='') out[k]=v;
+  });
+  return out;
+}
+function stripCheckinsForCloud(arr){
+  return (arr||[]).map(c=>({id:c.id, place:c.place, note:c.note, time:c.time}));
+}
+
+function queueCloudPush(name){
+  clearTimeout(syncPushTimers[name]);
+  syncPushTimers[name] = setTimeout(()=>{ syncPushMerged(name); }, 900);
+}
+
+async function syncPushMerged(name){
+  setSyncStatus('☁️ Đang đồng bộ…');
+  try{
+    if(name==='expenses'){
+      const remote = await cloudGet('expenses');
+      const merged = mergeById(expenses, remote||[]);
+      expenses = merged;
+      try{ localStorage.setItem(EXP_KEY, JSON.stringify(expenses)); }catch(e){}
+      renderExpenses();
+      await cloudPut('expenses', merged);
+    }else if(name==='checkins'){
+      const remote = await cloudGet('checkins');
+      const mergedStripped = mergeById(stripCheckinsForCloud(checkins), remote||[]);
+      const byId = new Map(checkins.map(c=>[c.id, c]));
+      checkins = mergedStripped.map(c=> byId.has(c.id) ? Object.assign({}, c, {photos: byId.get(c.id).photos||[]}) : Object.assign({}, c, {photos:[]}));
+      try{ localStorage.setItem(PIN_KEY, JSON.stringify(checkins)); }catch(e){}
+      renderCheckins(); renderMap();
+      await cloudPut('checkins', mergedStripped);
+    }else if(name==='moods'){
+      const remote = await cloudGet('moods');
+      moods = mergeTextMap(moods, remote||{});
+      try{ localStorage.setItem(MOOD_KEY, JSON.stringify(moods)); }catch(e){}
+      applyMoods();
+      await cloudPut('moods', moods);
+    }else if(name==='checklist'){
+      const remote = await cloudGet('checklist');
+      const localBool = allCbs.map(el=>el.classList.contains('on'));
+      const merged = mergeBoolArr(localBool, remote||[]);
+      applyChecklistBool(merged);
+      await cloudPut('checklist', merged);
+    }else if(name==='notes'){
+      const remote = await cloudGet('notes');
+      dayNotes = mergeTextMap(dayNotes, remote||{});
+      saveDayNotes();
+      renderDayNotes();
+      await cloudPut('notes', dayNotes);
+    }
+    setSyncStatus('☁️ Đã đồng bộ · '+new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}));
+  }catch(e){ console.error(e); setSyncStatus('⚠️ Chưa đồng bộ được (kiểm tra mạng)'); }
+}
+
+async function syncPullMergeAll(){
+  setSyncStatus('☁️ Đang tải dữ liệu chung…');
+  await Promise.all(['expenses','checkins','moods','checklist','notes'].map(name=>syncPushMerged(name)));
+}
+
+let lastSyncPull = 0;
+document.addEventListener('visibilitychange', ()=>{
+  if(!document.hidden && Date.now()-lastSyncPull > 15000){
+    lastSyncPull = Date.now();
+    syncPullMergeAll();
+  }
+});
+lastSyncPull = Date.now();
+syncPullMergeAll();
 
 /* ── TRIP WRAPPED (aggregated recap card, updates live from all features above) ── */
 function renderWrapped(){
