@@ -53,6 +53,59 @@ body{
 .reveal.in{opacity:1;transform:translateY(0);}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
 
+/* ═══ LIVELY UI: scroll progress, back-to-top, hover lift, day transitions ═══ */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;z-index:1200;
+  background:linear-gradient(90deg,var(--gold),#F4A7B9,var(--d3));transition:width .1s linear;}
+.back-to-top{
+  position:fixed;right:16px;bottom:84px;z-index:900;width:42px;height:42px;border-radius:50%;
+  border:none;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.18);font-size:17px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(16px) scale(.8);pointer-events:none;
+  transition:opacity .25s ease,transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.back-to-top.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+.back-to-top:active{transform:scale(.88);}
+@media(prefers-reduced-motion:reduce){.scroll-progress{transition:none;}.back-to-top{transition:none;}}
+
+.hcard,.ccard,.exp-add,.btn-map,.btn-photo{transition:transform .18s ease,box-shadow .18s ease;}
+.hcard:hover,.ccard:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.09);}
+.btn-map:hover,.btn-photo:hover{transform:translateY(-1px);}
+.btn-map:active,.btn-photo:active,.exp-add:active{transform:scale(.94);}
+.tli{transition:transform .18s ease;}
+.tli:hover{transform:translateX(3px);}
+
+.day-panel.show{animation:dayFadeIn .4s ease both;}
+@keyframes dayFadeIn{from{opacity:0;transform:translateX(12px);}to{opacity:1;transform:translateX(0);}}
+.day-panel.show .tli{animation:tliUp .5s ease both;}
+.day-panel.show .tli:nth-child(1){animation-delay:.03s;}
+.day-panel.show .tli:nth-child(2){animation-delay:.08s;}
+.day-panel.show .tli:nth-child(3){animation-delay:.13s;}
+.day-panel.show .tli:nth-child(4){animation-delay:.18s;}
+.day-panel.show .tli:nth-child(5){animation-delay:.23s;}
+.day-panel.show .tli:nth-child(6){animation-delay:.28s;}
+.day-panel.show .tli:nth-child(7){animation-delay:.33s;}
+.day-panel.show .tli:nth-child(8){animation-delay:.38s;}
+.day-panel.show .tli:nth-child(n+9){animation-delay:.42s;}
+@keyframes tliUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media(prefers-reduced-motion:reduce){
+  .day-panel.show,.day-panel.show .tli{animation:none;}
+  .hcard,.ccard,.tli{transition:none;}
+}
+
+.dtab.today-tab{position:relative;}
+.dtab.today-tab .dt-dot{animation:todayPulse 1.6s ease-in-out infinite;}
+.dtab.today-tab::after{
+  content:'HÔM NAY';position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  background:var(--red);color:#fff;font-size:8px;font-weight:800;letter-spacing:.3px;
+  padding:1px 5px;border-radius:6px;white-space:nowrap;
+}
+@keyframes todayPulse{
+  0%{box-shadow:0 0 0 0 rgba(219,39,119,.55);}
+  70%{box-shadow:0 0 0 7px rgba(219,39,119,0);}
+  100%{box-shadow:0 0 0 0 rgba(219,39,119,0);}
+}
+@media(prefers-reduced-motion:reduce){.dtab.today-tab .dt-dot{animation:none;}}
+
 /* ═══ HERO ═══ */
 .hero{
   background:
@@ -876,6 +929,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Lên đầu trang">⬆️</button>
+
 <!-- SVG SPRITE DEFS -->
 <svg class="sprite-defs" aria-hidden="true">
   <symbol id="ic-lotus" viewBox="0 0 100 100">
@@ -1342,8 +1398,8 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     <div class="day-head" style="background:linear-gradient(135deg,#065F46,#059669)">
       <div class="dh-num">03</div>
       <div class="dh-info">
-        <h2>Day Trip Pattaya 🏖️ – Sanctuary of Truth · Chùa Phật Lớn · Biển</h2>
-        <p>Thứ Bảy 29/08 · ~2 tiếng từ Bangkok</p>
+        <h2>Day Trip Pattaya 🏖️ – Sanctuary of Truth · Wat Phra Yai · Biển · Big C</h2>
+        <p>Thứ Bảy 29/08 · ~2 tiếng từ Bangkok · Tối về Big C mua sắm</p>
       </div>
     </div>
     <div class="day-body">
@@ -1367,15 +1423,39 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         </div>
       </div>
       <div class="alert alert-i"><span class="alert-icon">🚌</span><div><strong>Minivan Victory Monument → Pattaya:</strong> ~100–120 THB/người, ~2 giờ. Chạy liên tục 6h–22h, không cần đặt trước.</div></div>
+
+      <div class="route-wrap" style="margin-top:12px;">
+        <div class="route-label">🗺️ Lộ Trình <span class="route-hint">← vuốt ngang →</span></div>
+        <div class="route scroll-fade">
+          <div class="route-inner">
+            <div class="route-stop"><span class="rs-name">🏨 Khách Sạn</span><span class="rs-mode">BTS 17฿</span></div>
+            <span class="route-arr">→</span>
+            <div class="route-stop"><span class="rs-name">🚌 Victory Monument</span><span class="rs-mode">Minivan 120฿</span></div>
+            <span class="route-arr">→</span>
+            <div class="route-stop"><span class="rs-name">🏯 Sanctuary of Truth</span><span class="rs-mode">Grab ~120฿</span></div>
+            <span class="route-arr">→</span>
+            <div class="route-stop"><span class="rs-name">🙏 Wat Phra Yai</span><span class="rs-mode">Grab ~120฿</span></div>
+            <span class="route-arr">→</span>
+            <div class="route-stop"><span class="rs-name">🏖️ Jomtien Beach</span><span class="rs-mode">Grab ~60฿</span></div>
+            <span class="route-arr">→</span>
+            <div class="route-stop"><span class="rs-name">🚌 Về Victory Monument</span><span class="rs-mode">Minivan 120฿</span></div>
+            <span class="route-arr">→</span>
+            <div class="route-stop"><span class="rs-name">🛍️ Big C Ratchadamri</span><span class="rs-mode">BTS ~30฿</span></div>
+            <span class="route-arr">→</span>
+            <div class="route-stop"><span class="rs-name">🏨 Về Khách Sạn</span><span class="rs-mode">BTS 17฿</span></div>
+          </div>
+        </div>
+      </div>
+
       <div class="tl" style="margin-top:16px;">
         <div class="tli">
           <div class="tl-dot" style="color:var(--d3)"></div>
           <div class="tl-time">07:00 – 07:30</div>
           <div class="tl-title">🚌 Khởi hành Victory Monument → Pattaya</div>
           <div class="tl-desc">BTS đến ga Victory Monument. Chờ ~15–20 phút là có xe. Hành trình ~2 tiếng cao tốc.</div>
-          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> BTS <strong>Victory Monument</strong> – từ khách sạn: Ratchathewi → 1 trạm (~17฿, 3 phút). Ra cửa số 2, đi bộ ~5 phút tới bến minivan ở Soi Rangnam.</span></div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất & điểm đón:</strong> BTS <strong>Victory Monument</strong> – từ khách sạn: Ratchathewi → 1 trạm (~17฿, 3 phút). Ra <strong>cửa số 2</strong>, đi bộ ~5 phút tới đầu <strong>Soi Rangnam</strong> — dãy quầy vé minivan đi Pattaya nằm san sát, chọn quầy đông khách. Giá minivan: <strong>100–120฿/người</strong>, trả tiền mặt trực tiếp tại quầy.</span></div>
           <div class="tl-links">
-            <a class="btn-map" href="https://www.google.com/maps/search/Victory+Monument+Bangkok" target="_blank">🗺️ Bến Victory Monument</a>
+            <a class="btn-map" href="https://www.google.com/maps/search/Soi+Rangnam+Victory+Monument+Minivan+to+Pattaya" target="_blank">🗺️ Bến minivan Soi Rangnam</a>
           </div>
         </div>
         <div class="tli">
@@ -1432,6 +1512,31 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <div class="tl-title">🚌 Minivan về Bangkok</div>
           <div class="tl-desc">Grab ra bến xe Pattaya, đón minivan về. Đến Victory Monument ~18:00.</div>
           <div class="tl-tip">💡 Tháng 8 hay mưa chiều – về sớm trước 16h tránh mưa và tắc đường.</div>
+          <div class="tl-transit">🚇 <span><strong>Điểm đón ở Pattaya:</strong> Bến minivan khu <strong>Pattaya Klang</strong> (đường Sai Song, gần chợ đêm Pattaya) — Grab từ Jomtien Beach ra bến ~80–100฿, 15 phút. Vé về: <strong>100–120฿/người</strong>. Xuống lại tại Soi Rangnam, Victory Monument.</span></div>
+          <div class="tl-links">
+            <a class="btn-map" href="https://www.google.com/maps/search/Pattaya+Bus+Terminal+minivan+to+Bangkok" target="_blank">🗺️ Bến minivan Pattaya</a>
+          </div>
+        </div>
+        <div class="tli">
+          <div class="tl-dot" style="color:#DB2777"></div>
+          <div class="tl-time">18:15 – 20:30</div>
+          <div class="tl-title">🛍️ Big C Ratchadamri – Mua Sắm Quần Áo & Đồ Lưu Niệm</div>
+          <div class="tl-highlight">⭐ <span><strong>Nổi bật:</strong> Big C được khách Việt mê nhất vì snack/bánh kẹo Thái đủ loại, mỹ phẩm, quần áo giá mềm — 1 điểm mua đồ về làm quà cực tiện trước khi hết chuyến.</span></div>
+          <div class="tl-desc">Quần áo, giày dép giá rẻ ở tầng trên; snack, Pocky, mỹ phẩm, cà phê hoà tan ở tầng trệt/hầm. Mang theo túi vải/vali nhỏ — Big C tính phí túi nilon.</div>
+          <div class="tl-tip">🧾 Giữ hoá đơn: gộp đủ 2,000 THB/hoá đơn tại quầy có dấu "VAT Refund" để hoàn thuế 7% ở sân bay lúc về.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất & cách đi:</strong> Từ Victory Monument: BTS 1 tuyến, đổi hướng tại <strong>Siam</strong>, xuống ga <strong>Chit Lom</strong> (tổng 4 trạm, ~26–30฿, 15 phút) → đi bộ ~5 phút. Hoặc Grab thẳng ~150–180฿ (20–25 phút giờ cao điểm).</span></div>
+          <div class="tl-links">
+            <a class="btn-map" href="https://www.google.com/maps/search/Big+C+Ratchadamri+Bangkok" target="_blank">🗺️ Big C Ratchadamri</a>
+            <a class="btn-photo" href="https://www.google.com/search?q=Big+C+Ratchadamri+Bangkok&tbm=isch" target="_blank">📷 Ảnh</a>
+          </div>
+          <span class="checkin-chip">📸 Cổng Big C · Quầy snack Thái</span>
+        </div>
+        <div class="tli">
+          <div class="tl-dot" style="color:var(--d3)"></div>
+          <div class="tl-time">20:30 – 21:00</div>
+          <div class="tl-title">🏨 Về Khách Sạn Nghỉ Ngơi</div>
+          <div class="tl-desc">Kết thúc ngày Pattaya + mua sắm. Ăn nhẹ gần Big C nếu còn đói, hoặc về khu Pratunam ăn khuya.</div>
+          <div class="tl-transit">🚇 <span><strong>Ga gần nhất:</strong> BTS <strong>Chit Lom</strong> → Ratchathewi, 1 trạm (~17฿, 3 phút) → đi bộ ~600m về Rose Apple Hotel. Hoặc Grab thẳng ~80–100฿.</span></div>
         </div>
       </div>
       <div class="mood-row" data-mood-day="2">
@@ -1945,6 +2050,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <option value="Sanctuary of Truth">🏯 Sanctuary of Truth</option>
         <option value="Wat Phra Yai">🙏 Chùa Phật Lớn (Wat Phra Yai)</option>
         <option value="Jomtien Beach">🏖️ Jomtien Beach</option>
+        <option value="Big C Ratchadamri">🛍️ Big C Ratchadamri</option>
         <option value="Chatuchak Weekend Market">🛍️ Chatuchak Weekend Market</option>
         <option value="Or Tor Kor Market">🍱 Or Tor Kor Market</option>
         <option value="MOCA Bangkok">🎨 MOCA Bangkok</option>
@@ -2216,7 +2322,28 @@ window.addEventListener('scroll',()=>{
     const bIcon = b.querySelector('.bnav-icon').textContent;
     b.classList.toggle('active', bIcon===icon);
   });
+  // scroll progress bar
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docH>0 ? (window.scrollY/docH*100) : 0;
+  const bar = document.getElementById('scrollProgress');
+  if(bar) bar.style.width = pct+'%';
+  // back-to-top button
+  const btt = document.getElementById('backToTop');
+  if(btt) btt.classList.toggle('show', window.scrollY > 600);
 },{passive:true});
+
+/* ── TODAY INDICATOR ON DAY TABS ── */
+function markTodayTab(){
+  const TRIP_DATES = ['2026-08-27','2026-08-28','2026-08-29','2026-08-30','2026-08-31'];
+  const now = new Date();
+  const todayStr = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const idx = TRIP_DATES.indexOf(todayStr);
+  if(idx>=0){
+    const tab = document.getElementById('tab'+idx);
+    if(tab) tab.classList.add('today-tab');
+  }
+}
+try{ markTodayTab(); }catch(e){ console.error(e); }
 
 /* ── OOTD TOGGLE ── */
 function toggleOotd(id){
@@ -2540,6 +2667,7 @@ const PIN_MAPS = {
   'Sanctuary of Truth':'Sanctuary of Truth Pattaya',
   'Wat Phra Yai':'Wat Phra Yai Big Buddha Hill Pattaya',
   'Jomtien Beach':'Jomtien Beach Pattaya',
+  'Big C Ratchadamri':'Big C Ratchadamri Bangkok',
   'Chatuchak Weekend Market':'Chatuchak Weekend Market Bangkok',
   'Or Tor Kor Market':'Or Tor Kor Market Bangkok',
   'MOCA Bangkok':'MOCA Bangkok Museum',
@@ -2559,6 +2687,7 @@ const MAP_COORDS = {
   'Asiatique The Riverfront': {zone:'bkk', top:76, left:33},
   'Siam Paragon': {zone:'bkk', top:42, left:52},
   'Central World': {zone:'bkk', top:37, left:56},
+  'Big C Ratchadamri': {zone:'bkk', top:39, left:58},
   'Palladium Night Market': {zone:'bkk', top:33, left:61},
   'Pratunam Market': {zone:'bkk', top:29, left:59},
   'Platinum Fashion Mall': {zone:'bkk', top:26, left:63},
